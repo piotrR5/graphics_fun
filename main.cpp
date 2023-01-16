@@ -4,7 +4,8 @@
 using namespace std;
 
 int main(){
-    drawTriangle(10, 10 , SDL_Color(), 50, 50, SDL_Color(), 20, 100, SDL_Color());
+    Engine e;
+    
 
 
     return 0;
