@@ -1,13 +1,45 @@
 TODO:
 
-3d math model
-rasterization and displaying
+3D math model:
+    3D coordinates
+    3D transformations:
+        rotation
+        movement
+        scaling
+    triangles, lines, points and camera in 3D space
+    3D axis
+    4x4 matrix
+    4 vector
 
-3D math model with utility functions
-    ->
-Camera in a 3D space with utility functions
-    ->
-2D math model build on ray traced 3D model and camera
-    ->
-rasterization algos and utility functions, displaying the 2D model on the screen
+3D to 2D algos:
+    creating a perspective view
+    laying 3D coordinates onto 2D coordinates while keeping the distance from the camera
+
+2D math model:
+    3D coordinates, triangles, lines, points
+    3x3 matrix
+    3 vector
+    2D axis
+    2D tranformations:
+        rotation
+        movement
+        scaling
+
+rasterization:
+    rasterization of meshes
+    rasterization of color filled triangles
+    scaling to fit screen
+    displaying
+
+utils:
+    moving the camera
+    rotating the camera
+    zooming the camera
+    spawning basic objects in front of camera
+    fps enforcer
+    logging
+
+
+
+
 
