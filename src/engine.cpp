@@ -35,6 +35,55 @@ Engine::~Engine(){
 
 bool Engine::mainLoop(){
     bool run=true;
+
+    point2 a,b,c;
+    point2 d,e,f;
+
+    a.x=500;
+    a.y=0;
+    a.color.r=255;
+    
+    b.x=-500;
+    b.y=0;
+    b.color.g=255;
+
+    c.x=0;
+    c.y=200;
+    c.color.b=255;
+
+    d.x=-500;
+    d.y=-500;
+    d.color.r=255;
+    d.color.g=255;
+    d.color.b=255;
+
+    e.x=500;
+    e.y=500;
+    e.color.r=0;
+    e.color.g=0;
+    e.color.b=0;
+
+    f.x=-300;
+    f.y=500;
+    f.color.r=50;
+    f.color.g=50;
+    f.color.b=50;
+
+    std::vector<point2*>points;
+
+    points.push_back(&a);
+    points.push_back(&b);
+    points.push_back(&c);
+    points.push_back(&d);
+    points.push_back(&e);
+    points.push_back(&f);
+
+
+
+    transformToFitScreen(points);
+
+
+
     while(run){
         int startLoop=SDL_GetTicks();
         SDL_RenderClear(renderer);
@@ -59,18 +108,12 @@ bool Engine::mainLoop(){
         /*
             for the time being, call all draw functions between this and the next comment
         */
-        // drawTriangleMesh(10, 10, SDL_Color({255,0,0,255}), 50, 50, SDL_Color({255,0,0,255}), 30, 100, SDL_Color({255,0,0,255}), renderer);
-
-        // drawTriangleMesh(110, 110, SDL_Color({255,0,0,255}), 150, 150, SDL_Color({255,0,0,255}), 130, 200, SDL_Color({255,0,0,255}), renderer);
+        drawTriangle(a,b,c,renderer);
+        drawTriangle(d,e,f,renderer);
         /*
 
         */
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-
-        
-
-
-
 
         SDL_RenderPresent(renderer);
 

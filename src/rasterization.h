@@ -1,24 +1,18 @@
 #include <SDL2/SDL.h>
+#include "mathUtils.h"
 
 #ifndef RASTERIZATION
 #define RASTERIZATION
 
-void draw(double x, double y, SDL_Color c);
+void transformToFitScreen(std::vector<point2*>points);
 
-void drawLine(double x1, double y1, SDL_Color c2, double x2, double y2, SDL_Color c1);
+void drawPoint(point2 a, SDL_Renderer* renderer);
 
-void drawTriangle(
-                double x1, double y1, SDL_Color c1,
-                double x2, double y2, SDL_Color c2,
-                double x3, double y3, SDL_Color c3,
-                SDL_Renderer* renderer);
-    
-void drawTriangleMesh(double x1, double y1, SDL_Color c1,
-                double x2, double y2, SDL_Color c2,
-                double x3, double y3, SDL_Color c3,
-                SDL_Renderer* renderer);
+void drawLine(point2 a, point2 b, SDL_Renderer* renderer);
 
+void drawLineBresenham(point2 a, point2 b, SDL_Renderer* renderer);
 
+void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer);
 
 
 #endif

@@ -2,6 +2,9 @@
 #include <cmath>
 #include <iostream>
 
+#ifndef MATHUTILS
+#define MATHUTILS
+
 /*
     punkt 3d
     wektor 3d
@@ -18,7 +21,7 @@
 */
 
 struct color_RGBA{
-    uint8_t r, g, b, a;
+    uint8_t r=0, g=0, b=0, a=255;
 };
 
 struct point3{
@@ -100,7 +103,7 @@ struct triangle2{
 
 
 
-
+#endif
 
 
 
