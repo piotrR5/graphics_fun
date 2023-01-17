@@ -37,54 +37,54 @@ bool Engine::mainLoop(){
     bool run=true;
 
     point2 a,b,c;
-    point2 d,e,f;
 
-    a.x=500;
-    a.y=0;
+    double sin=0;
+
+    a.x=0;
+    a.y=1;
     a.color.r=255;
     
-    b.x=-500;
-    b.y=0;
+    b.x=0;
+    b.y=200;
     b.color.g=255;
 
-    c.x=0;
+    c.x=200;
     c.y=200;
     c.color.b=255;
 
-    d.x=-500;
+    point2 r,l,u,d;
+    r.x=500;
+    r.color={255,255,255,255};
+
+    l.x=-500;
+    l.color={255,255,255,255};
+
+    u.y=500;
+    u.color={255,255,255,255};
+
     d.y=-500;
-    d.color.r=255;
-    d.color.g=255;
-    d.color.b=255;
-
-    e.x=500;
-    e.y=500;
-    e.color.r=0;
-    e.color.g=0;
-    e.color.b=0;
-
-    f.x=-300;
-    f.y=500;
-    f.color.r=50;
-    f.color.g=50;
-    f.color.b=50;
+    d.color={255,255,255,255};
+    
 
     std::vector<point2*>points;
 
     points.push_back(&a);
     points.push_back(&b);
     points.push_back(&c);
+    points.push_back(&r);
+    points.push_back(&l);
     points.push_back(&d);
-    points.push_back(&e);
-    points.push_back(&f);
-
-
+    points.push_back(&u);
 
     transformToFitScreen(points);
 
-
-
     while(run){
+        sin+=0.001;
+        if(sin==3.14)sin=0;
+        double newX=a.x*std::cos(sin)-a.y*std::sin(sin);
+        double newY=a.x*std::sin(sin)+a.y*std::cos(sin);
+        a.x=newX;
+        a.y=newY;
         int startLoop=SDL_GetTicks();
         SDL_RenderClear(renderer);
 
@@ -108,8 +108,10 @@ bool Engine::mainLoop(){
         /*
             for the time being, call all draw functions between this and the next comment
         */
+
         drawTriangle(a,b,c,renderer);
-        drawTriangle(d,e,f,renderer);
+        drawLine(u,d,renderer);
+        drawLine(r,l,renderer);
         /*
 
         */

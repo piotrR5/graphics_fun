@@ -94,75 +94,7 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
 }
 
-int getXFromY(double a, double b, int y){
-    if(a==0)return 2147483647;
-    return (y-b)/a;
-}
 
-double getA(point2 a, point2 b){
-    if(b.y-a.y==0)return 0;
-    if(b.x-a.x==0)return 1;
-    return (b.y-a.y)/(b.x-a.x);
-}
-
-bool doesTheLineContainX(point2 a, point2 b, int x){
-    if(x<a.x && x<b.x)return false;
-    if(x>a.x && x>b.x)return false;
-    return true;
-}
-
-void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
-    drawLine(a,b,renderer);
-    drawLine(b,c,renderer);
-    drawLine(a,c,renderer);
-
-    double a0=getA(a,b);
-    double b0=a.y-a0*a.x;
-
-    double a1=getA(b,c);
-    double b1=b.y-a1*b.x;
-
-    double a2=getA(c,a);
-    double b2=c.y-a2*c.x;
-    
-    int miny=std::min(a.y, std::min(b.y, c.y));
-    int maxy=std::max(a.y, std::max(b.y,c.y));
-
-    for(int y=miny; y<=maxy; y++){
-        
-        point2 i,j,k;
-        int x0=getXFromY(a0,b0,y);
-        int x1=getXFromY(a1,b1,y);
-        int x2=getXFromY(a2,b2,y);
-
-        //std::cout<<y<<" "<<x0<<" "<<x1<<" "<<x2<<std::endl;
-        
-point2 m,n,o;
-
-        i.x=x0;
-        i.y=y;
-        m.x=x0;
-        m.y=y;
-        i.color=linearColorInterpolation(a,b,m);
-
-        j.x=x1;
-        j.y=y;
-        n.x=x1;
-        n.y=y;
-        j.color=linearColorInterpolation(b,c,n);
-
-        o.x=x2;
-        o.y=y;
-        k.x=x2;
-        k.y=y;
-        k.color=linearColorInterpolation(a,c,o);
-
-        if(doesTheLineContainX(a,b,x0) && doesTheLineContainX(b,c,x1))drawLine(i,j,renderer);
-        else if(doesTheLineContainX(b,c,x1) && doesTheLineContainX(a,c,x2))drawLine(j,k,renderer);
-        else if(doesTheLineContainX(a,b,x0) && doesTheLineContainX(a,c,x2))drawLine(i,k,renderer);
-    }
-
-}
 
 void transformPoint(point2& p, double mx, double my){
     p.y=-(p.y);
@@ -184,5 +116,100 @@ void transformToFitScreen(std::vector<point2*>points){
 
     for(int i=0;i<points.size();i++){
         transformPoint(*points[i], mx,my);
+    }
+}
+
+double getA(point2& a, point2& b){
+    if(a.x-b.x==0){
+        a.x++;
+        return (b.y-a.y)/(b.x-a.x);
+    }
+    if(a.y-b.y==0)return 0;
+    else return (b.y-a.y)/(b.x-a.x);
+}
+
+double getB(point2 p, double a){
+    double ret=0.0;
+
+    if(a==0)return p.y;
+    if(a==INT_BIG)return INT_BIG;
+    return p.y - a*p.x;
+}
+
+point2 linesIntersection(double A1, double B1, double A2, double B2){
+    point2 ret;
+    if(A1-A2)ret.x=(B2-B1)/(A1-A2);
+    if(!(B2-B1))ret.x=INT_BIG;
+    ret.y=A1*ret.x+B1;
+
+    return ret;
+}
+
+bool isInDomain(point2 x, point2 a, point2 b){
+    if(x.x > a.x && x.x > b.x)return false;
+    if(x.x < a.x && x.x < b.x)return false;
+    return true;
+}
+
+void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
+    int miny=std::min(a.y, std::min(b.y,c.y));
+    int maxy=std::max(a.y, std::max(b.y,c.y));
+
+    double A[3];
+    double B[3];
+    int X[3];
+
+    A[0]=getA(a,b);
+    A[1]=getA(b,c);
+    A[2]=getA(c,a);
+
+    B[0]=getB(a, A[0]);
+    B[1]=getB(b, A[1]);
+    B[2]=getB(c, A[2]);
+
+    point2 i,j;
+
+    for(int y=miny; y<=maxy;y++){
+        double Ay=0;
+        double By=y;
+        point2 intersections[3];
+        for(int i=0;i<3;i++)intersections[i]=linesIntersection(A[i], B[i], Ay, By);
+
+        //inter0
+
+
+        if(isInDomain(intersections[0], a, b) && isInDomain(intersections[1], b,c)){
+            i.x=intersections[0].x;
+            i.y=y;
+            i.color=linearColorInterpolation(a,b,intersections[0]);
+
+            j.x=intersections[1].x;
+            j.y=y;
+            j.color=linearColorInterpolation(b,c,intersections[1]);
+
+            drawLine(i,j,renderer);
+
+        }else if(isInDomain(intersections[0], a, b) && isInDomain(intersections[2], c,a)){
+            i.x=intersections[0].x;
+            i.y=y;
+            i.color=linearColorInterpolation(a,b,intersections[0]);
+
+            j.x=intersections[2].x;
+            j.y=y;
+            j.color=linearColorInterpolation(c,a,intersections[2]);
+
+            drawLine(i,j,renderer);
+            
+        }else if(isInDomain(intersections[2], c, a) && isInDomain(intersections[1], b,c)){
+            i.x=intersections[2].x;
+            i.y=y;
+            i.color=linearColorInterpolation(c,a,intersections[2]);
+
+            j.x=intersections[1].x;
+            j.y=y;
+            j.color=linearColorInterpolation(b,c,intersections[1]);
+
+            drawLine(i,j,renderer);
+        }
     }
 }
