@@ -59,9 +59,9 @@ bool Engine::mainLoop(){
         /*
             for the time being, call all draw functions between this and the next comment
         */
-        drawTriangleMesh(10, 10, SDL_Color({255,0,0,255}), 50, 50, SDL_Color({255,0,0,255}), 30, 100, SDL_Color({255,0,0,255}), renderer);
+        // drawTriangleMesh(10, 10, SDL_Color({255,0,0,255}), 50, 50, SDL_Color({255,0,0,255}), 30, 100, SDL_Color({255,0,0,255}), renderer);
 
-        drawTriangleMesh(110, 110, SDL_Color({255,0,0,255}), 150, 150, SDL_Color({255,0,0,255}), 130, 200, SDL_Color({255,0,0,255}), renderer);
+        // drawTriangleMesh(110, 110, SDL_Color({255,0,0,255}), 150, 150, SDL_Color({255,0,0,255}), 130, 200, SDL_Color({255,0,0,255}), renderer);
         /*
 
         */
