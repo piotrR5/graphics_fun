@@ -67,6 +67,8 @@ struct triangle3{
 struct point2{
     double x=0,y=0;
     color_RGBA color;
+    point2(double x, double y);
+    point2();
 };
 
 struct vec2{
@@ -95,10 +97,14 @@ class matrix3{
 
 struct line2{
     point2 a,b;
+    line2();
+    line2(point2 a, point2 b);
 };
 
 struct triangle2{
     point2 a,b,c;
+    triangle2();
+    triangle2(point2 a, point2 b, point2 c);
 };
 
 

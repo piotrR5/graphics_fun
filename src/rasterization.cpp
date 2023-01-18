@@ -58,7 +58,6 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
     color_RGBA c1=b.color;
     color_RGBA c;
 
-
     int x0=a.x, y0=a.y;
     int x1=b.x, y1=b.y;
 
@@ -67,7 +66,6 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
     int dy=-abs(y0-y1);
     int sy=y0 < y1 ? 1 : -1;
     int error = dx + dy;
-    SDL_SetRenderDrawColor(renderer, 255,0,0,255);
     while(true){
         point2 m;
         m.x=x0;
@@ -75,7 +73,7 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
         c=linearColorInterpolation(a,b, m);
         SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
         SDL_RenderDrawPoint(renderer, x0, y0);
-        SDL_SetRenderDrawColor(renderer,0,0,0,255);
+        
 
         if(x0==x1 && y0==y1)break;
         int e2=2*error;
@@ -89,34 +87,8 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
             error+=dx;
             y0+=sy;
         }
-
     }
-    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
-}
-
-
-
-void transformPoint(point2& p, double mx, double my){
-    p.y=-(p.y);
-    p.y+=500;
-    p.x+=500;
-    p.x*=mx;
-    p.y*=my;
-}
-
-void transformToFitScreen(std::vector<point2*>points){
-    int plane2x=1000;
-    int plane2y=1000;
-
-    int screenx=640;
-    int screeny=480;
-
-    double mx=screenx/(double)plane2x;
-    double my=screeny/(double)plane2y;
-
-    for(int i=0;i<points.size();i++){
-        transformPoint(*points[i], mx,my);
-    }
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
 }
 
 double getA(point2& a, point2& b){
@@ -131,7 +103,6 @@ double getA(point2& a, point2& b){
 double getB(point2 p, double a){
     double ret=0.0;
 
-    if(a==0)return p.y;
     if(a==INT_BIG)return INT_BIG;
     return p.y - a*p.x;
 }
@@ -175,9 +146,6 @@ void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
         point2 intersections[3];
         for(int i=0;i<3;i++)intersections[i]=linesIntersection(A[i], B[i], Ay, By);
 
-        //inter0
-
-
         if(isInDomain(intersections[0], a, b) && isInDomain(intersections[1], b,c)){
             i.x=intersections[0].x;
             i.y=y;
@@ -188,6 +156,7 @@ void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
             j.color=linearColorInterpolation(b,c,intersections[1]);
 
             drawLine(i,j,renderer);
+            continue;
 
         }else if(isInDomain(intersections[0], a, b) && isInDomain(intersections[2], c,a)){
             i.x=intersections[0].x;
@@ -199,6 +168,7 @@ void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
             j.color=linearColorInterpolation(c,a,intersections[2]);
 
             drawLine(i,j,renderer);
+            continue;
             
         }else if(isInDomain(intersections[2], c, a) && isInDomain(intersections[1], b,c)){
             i.x=intersections[2].x;
@@ -210,6 +180,13 @@ void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
             j.color=linearColorInterpolation(b,c,intersections[1]);
 
             drawLine(i,j,renderer);
+            continue;
         }
     }
+}
+
+void drawTriangleMesh(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
+    drawLine(a,b,renderer);
+    drawLine(b,c,renderer);
+    drawLine(c,a,renderer);
 }
