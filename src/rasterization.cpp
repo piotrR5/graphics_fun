@@ -7,6 +7,12 @@ void drawPoint(point2 a, SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
 }
 
+void drawPoint(point2 a, color_RGBA color, SDL_Renderer* renderer){
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderDrawPoint(renderer, a.x, a.y);
+    SDL_SetRenderDrawColor(renderer, 0,0,0,255);
+}
+
 void drawLineBresenham(point2 a, point2 b, SDL_Renderer* renderer){
     int x0=a.x, y0=a.y;
     int x1=b.x, y1=b.y;
@@ -71,6 +77,44 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
         m.x=x0;
         m.y=y0;
         c=linearColorInterpolation(a,b, m);
+        SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
+        SDL_RenderDrawPoint(renderer, x0, y0);
+        
+
+        if(x0==x1 && y0==y1)break;
+        int e2=2*error;
+        if(e2 >= dy){
+            if(x0 == x1)break;
+            error+=dy;
+            x0+=sx;
+        }
+        if(e2 <= dx){
+            if(y0==y1)break;
+            error+=dx;
+            y0+=sy;
+        }
+    }
+    SDL_SetRenderDrawColor(renderer,0,0,0,255);
+}
+
+void drawLine(point2 a, point2 b, color_RGBA color, SDL_Renderer* renderer){
+    color_RGBA c0=a.color;
+    color_RGBA c1=b.color;
+    color_RGBA c;
+
+    int x0=a.x, y0=a.y;
+    int x1=b.x, y1=b.y;
+
+    int dx=abs(x1-x0);
+    int sx=x0 < x1 ? 1 : -1;
+    int dy=-abs(y0-y1);
+    int sy=y0 < y1 ? 1 : -1;
+    int error = dx + dy;
+    while(true){
+        point2 m;
+        m.x=x0;
+        m.y=y0;
+        c=color;
         SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
         SDL_RenderDrawPoint(renderer, x0, y0);
         
@@ -178,6 +222,69 @@ void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
             j.x=intersections[1].x;
             j.y=y;
             j.color=linearColorInterpolation(b,c,intersections[1]);
+
+            drawLine(i,j,renderer);
+            continue;
+        }
+    }
+}
+
+void drawTriangle(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* renderer){
+    int miny=std::min(a.y, std::min(b.y,c.y));
+    int maxy=std::max(a.y, std::max(b.y,c.y));
+
+    double A[3];
+    double B[3];
+    int X[3];
+
+    A[0]=getA(a,b);
+    A[1]=getA(b,c);
+    A[2]=getA(c,a);
+
+    B[0]=getB(a, A[0]);
+    B[1]=getB(b, A[1]);
+    B[2]=getB(c, A[2]);
+
+    point2 i,j;
+
+    for(int y=miny; y<=maxy;y++){
+        double Ay=0;
+        double By=y;
+        point2 intersections[3];
+        for(int i=0;i<3;i++)intersections[i]=linesIntersection(A[i], B[i], Ay, By);
+
+        if(isInDomain(intersections[0], a, b) && isInDomain(intersections[1], b,c)){
+            i.x=intersections[0].x;
+            i.y=y;
+            i.color=color;
+
+            j.x=intersections[1].x;
+            j.y=y;
+            j.color=color;
+
+            drawLine(i,j,renderer);
+            continue;
+
+        }else if(isInDomain(intersections[0], a, b) && isInDomain(intersections[2], c,a)){
+            i.x=intersections[0].x;
+            i.y=y;
+            i.color=color;
+
+            j.x=intersections[2].x;
+            j.y=y;
+            j.color=color;
+
+            drawLine(i,j,renderer);
+            continue;
+            
+        }else if(isInDomain(intersections[2], c, a) && isInDomain(intersections[1], b,c)){
+            i.x=intersections[2].x;
+            i.y=y;
+            i.color=color;
+
+            j.x=intersections[1].x;
+            j.y=y;
+            j.color=color;
 
             drawLine(i,j,renderer);
             continue;

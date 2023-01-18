@@ -14,12 +14,12 @@
 
 #endif
 
-// void fastRotation(point2& p, double a){
-//     double newX=p.x*std::cos(a) - p.y*std::sin(a);
-//     double newY=p.x*std::sin(a) + p.y*std::cos(a);
-//     p.x=newX;
-//     p.y=newY;
-// }
+void fastRotation(point2& p, double a){
+    double newX=p.x*std::cos(a) - p.y*std::sin(a);
+    double newY=p.x*std::sin(a) + p.y*std::cos(a);
+    p.x=newX;
+    p.y=newY;
+}
 
 Engine::Engine(){
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -44,21 +44,27 @@ bool Engine::mainLoop(){
     /*
         axis:
     */
-    point2 r(500,0),l(-500, 0),u(0, 500),d(0, -500);
-    r.color={100,100,100,255};
-    l.color={100,100,100,255};
-    u.color={100,100,100,255};
-    d.color={100,100,100,255};
-    addLine(u,d);
-    addLine(r,l);
+    point2 R(500,0),L(-500, 0),U(0, 500),D(0, -500);
+    R.color={100,100,100,255};
+    L.color={100,100,100,255};
+    U.color={100,100,100,255};
+    D.color={100,100,100,255};
     /*
 
     */
 
-   point2 a(0,0), b(0,200), c(100, 300);
-   a.color={255,0,0,255};
-   b.color={255,0,255,255};
+   point2 a(-200,-200), b(200,-200), c(-200, 200), d(200,200);
+   a.color={255,0,255,255};
+   b.color={255,0,0,255};
    c.color={0,0,255,255};
+   d.color={255,255,255};
+
+   point2 a1(20,20), b1(20, 180), c1(80, 280);
+   a1.color={255,0,255,255};
+   b1.color={255,0,0,255};
+   c1.color={0,0,255,255};
+
+   
    //addTriangle(a,b,c);
     
 
@@ -85,11 +91,15 @@ bool Engine::mainLoop(){
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
-        //fastRotation(lines[2].b, 0.1);
-        tranformToFitScreen();
-        drawTriangleMesh(a,b,c,renderer);
+        
+        fastRotation(a,0.01);
+        fastRotation(b,0.01);
+        fastRotation(c,0.01);
+        fastRotation(d,0.01);
 
-        drawAll();
+        draw(transformToFitScreen({{a,b,c}, {b,c,d}}));
+        draw(transformToFitScreen({{U,D}, {R,L}}));
+
         SDL_RenderPresent(renderer);
 
         /*
@@ -115,120 +125,72 @@ point2 Engine::transformPoint(const point2& p){
     return ret;
 }
 
-void Engine::tranformToFitScreen(){
-    pScreen.clear();
-    lScreen.clear();
-    tScreen.clear();
-
-    for(int i=0;i<points.size();i++){
-        pScreen.push_back(transformPoint(points[i]));
+std::vector<std::vector<point2>>Engine::transformToFitScreen(const std::vector<std::vector<point2>>& obj){
+    std::vector<std::vector<point2>>ret;
+    for(const auto& o:obj){
+        ret.push_back(std::vector<point2>());
+        for(auto i:o)ret[ret.size()-1].push_back(transformPoint(i));
     }
 
-    for(int i=0;i<lines.size();i++){
-        line2 ls;
-        ls.a=transformPoint(lines[i].a);
-        ls.b=transformPoint(lines[i].b);
-        lScreen.push_back(ls);
+    return ret;
+}
+
+void Engine::draw(const std::vector<std::vector<point2>>& obj){
+    for(const auto& o:obj){
+        switch(o.size()){
+            case 1:{
+                drawPoint(o[0], renderer);
+            }
+            break;
+            case 2:{
+                drawLine(o[0], o[1], renderer);
+            }
+            break;
+            case 3:{
+                drawTriangle(o[0], o[1], o[2], renderer);
+            }
+            break;
+        }
     }
+}
 
-    for(int i=0;i<triangles.size();i++){
-        triangle2 ts;
-        ts.a=transformPoint(triangles[i].a);
-        ts.b=transformPoint(triangles[i].b);
-        ts.c=transformPoint(triangles[i].c);
-        tScreen.push_back(ts);
+void Engine::draw(const std::vector<std::vector<point2>>& obj, color_RGBA color){
+    for(const auto& o:obj){
+        switch(o.size()){
+            case 1:{
+                drawPoint(o[0], color, renderer);
+            }
+            break;
+            case 2:{
+                drawLine(o[0], o[1], color, renderer);
+            }
+            break;
+            case 3:{
+                drawTriangle(o[0], o[1], o[2], color, renderer);
+            }
+            break;
+        }
     }
 }
 
-void Engine::drawAll(){
-    for(auto i:pScreen){
-        drawPoint(i, renderer);
-        //std::cout<<"[point: "<<i.x<<" "<<i.y<<"]\n";
+void Engine::draw(const std::vector<std::vector<point2>>& obj, bool wireframe){
+    for(const auto& o:obj){
+        switch(o.size()){
+            case 1:{
+                drawPoint(o[0], renderer);
+            }
+            break;
+            case 2:{
+                drawLine(o[0], o[1], renderer);
+            }
+            break;
+            case 3:{
+                drawTriangleMesh(o[0], o[1], o[2], renderer);
+            }
+            break;
+        }
     }
-    
-    for(auto i:lScreen){
-        drawLine(i.a, i.b, renderer);
-        // std::cout<<"[line: ]\n";
-        // std::cout<<"[\t"<<i.a.x<<" "<<i.a.y<<"\t]\n";
-        // std::cout<<"[\t"<<i.b.x<<" "<<i.b.y<<"\t]\n";
-    }
-    for(auto i:tScreen){
-        drawTriangle(i.a, i.b, i.c, renderer);
-        // std::cout<<"[trianglee: ]\n";
-        // std::cout<<"[\t"<<i.a.x<<" "<<i.a.y<<"\t]\n";
-        // std::cout<<"[\t"<<i.b.x<<" "<<i.b.y<<"\t]\n";
-        // std::cout<<"[\t"<<i.c.x<<" "<<i.c.y<<"\t]\n";
-    }
-
-    // std::cout<<"[OG OBJECT]\n";
-    // for(auto i:points){
-    //     std::cout<<"[point: "<<i.x<<" "<<i.y<<"]\n";
-    // }
-    // for(auto i:lines){
-    //     std::cout<<"[line: ]\n";
-    //     std::cout<<"[\t"<<i.a.x<<" "<<i.a.y<<"\t]\n";
-    //     std::cout<<"[\t"<<i.b.x<<" "<<i.b.y<<"\t]\n";
-    // }
-
-    // for(auto i:triangles){
-    //     std::cout<<"[trianglee: ]\n";
-    //     std::cout<<"[\t"<<i.a.x<<" "<<i.a.y<<"\t]\n";
-    //     std::cout<<"[\t"<<i.b.x<<" "<<i.b.y<<"\t]\n";
-    //     std::cout<<"[\t"<<i.c.x<<" "<<i.c.y<<"\t]\n";
-    // }
 }
 
-void Engine::addTriangle(point2 a, point2 b, point2 c){
-    triangles.push_back(triangle2(a,b,c));
-    tScreen.push_back(triangle2());
-}
 
-void Engine::addTriangle(triangle2 t){
-    triangles.push_back(t);
-    tScreen.push_back(triangle2());
-}
 
-void Engine::popTriangle(){
-    triangles.pop_back();
-    tScreen.pop_back();
-}
-
-void Engine::removeTriangle(std::size_t i){
-    triangles.erase(triangles.begin()+1);
-    tScreen.pop_back();
-}
-
-void Engine::addLine(point2 a, point2 b){
-    lines.push_back(line2(a,b));
-    //lScreen.push_back(line2());
-}
-
-void Engine::addLine(line2 l){
-    lines.push_back(l);
-    //lScreen.push_back(line2());
-}
-
-void Engine::popLine(){
-    lines.pop_back();
-    //lScreen.pop_back();
-}
-
-void Engine::removeLine(std::size_t i){
-    lines.erase(lines.begin()+i);
-    //lScreen.pop_back();
-}
-
-void Engine::addPoint(point2 p){
-    points.push_back(p);
-    //pScreen.push_back(point2());
-}
-
-void Engine::popPoint(){
-    points.pop_back();
-    //pScreen.pop_back();
-}
-
-void Engine::removePoint(std::size_t i){
-    points.erase(points.begin()+i);
-    //pScreen.pop_back();
-}

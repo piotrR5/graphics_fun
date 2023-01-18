@@ -8,13 +8,21 @@
 
 void drawPoint(point2 a, SDL_Renderer* renderer);
 
+void drawPoint(point2 a, color_RGBA color, SDL_Renderer* renderer);
+
 void drawLine(point2 a, point2 b, SDL_Renderer* renderer);
+
+void drawLine(point2 a, point2 b, color_RGBA color, SDL_Renderer* renderer);
 
 void drawLineBresenham(point2 a, point2 b, SDL_Renderer* renderer);
 
 void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer);
 
+void drawTriangle(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* renderer);
+
 void drawTriangleMesh(point2 a, point2 b, point2 c, SDL_Renderer* renderer);
+
+void drawTriangleMesh(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* renderer);
 
 
 #endif
