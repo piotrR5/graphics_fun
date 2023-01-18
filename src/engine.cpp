@@ -38,7 +38,7 @@ bool Engine::mainLoop(){
 
     point2 a,b,c;
 
-    double sin=0;
+    double chuj=0;
 
     a.x=0;
     a.y=1;
@@ -79,12 +79,14 @@ bool Engine::mainLoop(){
     transformToFitScreen(points);
 
     while(run){
-        sin+=0.001;
-        if(sin==3.14)sin=0;
-        double newX=a.x*std::cos(sin)-a.y*std::sin(sin);
-        double newY=a.x*std::sin(sin)+a.y*std::cos(sin);
-        a.x=newX;
-        a.y=newY;
+        chuj+=0.00001;
+        if(chuj==100)chuj=0;
+        double newX=b.x*std::cos(chuj)-b.y*std::sin(chuj);
+        double newY=b.x*std::sin(chuj)+b.y*std::cos(chuj);
+        b.x=newX;
+        b.y=newY;
+
+
         int startLoop=SDL_GetTicks();
         SDL_RenderClear(renderer);
 
@@ -125,7 +127,8 @@ bool Engine::mainLoop(){
             fps cap
         */
         int dT = SDL_GetTicks() - startLoop;
-        std::cout<<"[fps: "<<1000/(desiredDT-dT)<<"]\n";
+        if(desiredDT-dT)std::cout<<"[fps: "<<1000/abs(desiredDT+dT)<<"]\n";
+        else std::cout<<"[fps: "<<fps<<"]\n";
         if(dT<desiredDT){
             SDL_Delay(desiredDT-dT);
         }
