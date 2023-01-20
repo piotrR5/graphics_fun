@@ -2,6 +2,8 @@
 #include <cmath>
 #include <iostream>
 
+using namespace std;
+
 /*
     punkt 3d
     wektor 3d
@@ -35,7 +37,12 @@ struct rot3{
 };
 
 class matrix4{
-    double data[4][4];
+    /*
+        TODO: matrix multiplication, matrix reversal(inverse)
+    */
+
+    vector<vector<double>> data;
+
     /*
       x y z w
     0 . . . .
@@ -44,11 +51,19 @@ class matrix4{
     3 . . . .
     
     */
-    double& at(std::size_t row, char col);
+    public:
+    
+    matrix4(){
+        vector<double> data_row(4, 0);
+        for(int i=0; i<4; i++) data.push_back(data_row);
+    }
 
-    /*
-        TODO: dot product, matrix multiplication, matrix reversal 
-    */
+    double& at(size_t row, char col);
+
+    vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2)
+
+    vector<vector<double>> inverse_matrix(vector<vector<double>> matrix)
+    
 };
 
 struct line3{
