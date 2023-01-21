@@ -1,5 +1,12 @@
 #include "mathUtils.h"
 
+void vec4::add(vec4 v){
+    x+=v.x;
+    y+=v.y;
+    z+=v.z;
+    w+=v.w;
+}
+
 vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix
     vector<vector<double>> return_matrix;
     double inv[16],invOut[16] , det;
@@ -159,7 +166,6 @@ vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://
     return return_matrix;
 }
 
-
 point3::point3(double x, double y, double z){
     this->x=x;
     this->y=y;
@@ -170,6 +176,16 @@ point3::point3(){
     x=0;
     y=0;
     z=0;
+}
+
+void point3::add(vec3 v){
+    x+=v.x;
+    y+=v.y;
+    z+=v.z;
+}
+
+vec3 point3::makeVec3(){
+    return {x, y, z};
 }
 
 line3::line3(){
@@ -192,6 +208,12 @@ triangle3::triangle3(point3 a, point3 b, point3 c){
     this->a=a;
     this->b=b;
     this->c=c;
+}
+
+void vec3::add(vec3 v){
+    x+=v.x;
+    y+=v.y;
+    z+=v.z;
 }
 
 double& matrix4::at(size_t row, char col){
@@ -229,6 +251,15 @@ point2::point2(){
     y=0;
 }
 
+void point2::add(vec2 v){
+    x+=v.x;
+    y+=v.y;
+}
+
+vec2 point2::makeVec2(){
+    return {x,y};
+}
+
 line2::line2(point2 a, point2 b){
     this->a=a;
     this->b=b;
@@ -249,6 +280,11 @@ triangle2::triangle2(){
     a=point2();
     b=point2();
     c=point2();
+}
+
+void vec2::add(vec2 v){
+    x+=v.x;
+    y+=v.y;
 }
 
 double& matrix3::at(size_t row, char col){

@@ -7,23 +7,27 @@
 
 class Object2{
     std::vector<std::vector<point2>>vertices;
-    point2 axis;
+    vec2 axis;
     
-
 public:
     Object2();
     Object2(std::vector<std::vector<point2>>v);
-    Object2(std::vector<std::vector<point2>>v, point2 a);
-    Object2(point2 a);
+    Object2(std::vector<std::vector<point2>>v, vec2 a);
+    Object2(vec2 a);
     void addVertices(std::vector<std::vector<point2>>v);
-    void setAxis(point2 a);
+    void setAxis(vec2 a);
     std::vector<std::vector<point2>>& getVertices();
-    point2& getAxis();
+    vec2& getAxis();
+
+
+
+
+    void rotate(double a);
+    void move(vec2 vec);
+    void setPos(vec2 vec);
+    void scale(double x);
 
     //TODO:
-    //rotating by 2 angles
-    //moving by vec2
-    //setting the position using vec2 (position of axis)
     //scale by a double value
 };
 

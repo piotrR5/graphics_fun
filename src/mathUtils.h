@@ -6,7 +6,6 @@
 #define MATHUTILS
 using namespace std;
 
-
 struct color_RGBA{
     uint8_t r=0, g=0, b=0, a=255;
 };
@@ -14,12 +13,27 @@ struct color_RGBA{
 
 struct vec4{
     double x=0, y=0, z=0, w=0;
+    void add(vec4 v);
 };
 
+struct vec3{
+    double x=0, y=0, z=0;
+    void add(vec3 v);
+};
+
+struct vec2{
+    double x=0, y=0;
+    void add(vec2 v);
+};
 
 struct point3{
     double x=0,y=0,z=0;
     color_RGBA color;
+
+    void add(vec3 v);
+
+    vec3 makeVec3();
+
     point3(double x, double y, double z);
     point3();
 };
@@ -34,10 +48,6 @@ struct triangle3{
     point3 a,b,c;
     triangle3();
     triangle3(point3 a, point3 b, point3 c);
-};
-
-struct vec3{
-    double x=0, y=0, z=0;
 };
 
 class matrix4{
@@ -59,12 +69,14 @@ class matrix4{
 
 
 
-
-
-
 struct point2{
     double x=0,y=0;
     color_RGBA color;
+
+    void add(vec2 v);
+
+    vec2 makeVec2();
+
     point2(double x, double y);
     point2();
 };
@@ -81,20 +93,10 @@ struct triangle2{
     triangle2(point2 a, point2 b, point2 c);
 };
 
-struct vec2{
-    double x=0, y=0;
-};
-
 class matrix3{
     double data[3][3];
     double& at(std::size_t row, char col);
 };
-
-
-
-
-
-
 
 
 

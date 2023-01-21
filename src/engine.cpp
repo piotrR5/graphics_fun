@@ -54,7 +54,8 @@ bool Engine::mainLoop(){
 
     Object2 square({{a,b,c}, {d,c,b}});
     Object2 axis({{U,D}, {R,L}});
-    std::vector<Object2>objects{square}, AXIS{axis};    
+    std::vector<Object2>objects{square}, AXIS{axis};  
+    objects[0].setAxis({100,100});  
 
     while(run){
         int startLoop=SDL_GetTicks();
@@ -79,8 +80,11 @@ bool Engine::mainLoop(){
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
 
-        draw(transformToFitScreen(objects), DRAW_WIREFRAME_COLOR, {255,200,100,255});
+        draw(transformToFitScreen(objects), DRAW_NORMAL, {255,200,100,255});
         draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {200,50,0,255});
+        
+        objects[0].rotate(0.02);
+        objects[0].scale(0.995);
 
         SDL_RenderPresent(renderer);
 
