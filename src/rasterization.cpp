@@ -297,3 +297,9 @@ void drawTriangleMesh(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
     drawLine(b,c,renderer);
     drawLine(c,a,renderer);
 }
+
+void drawTriangleMesh(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* renderer){
+    drawLine(a,b,color,renderer);
+    drawLine(b,c,color,renderer);
+    drawLine(c,a,color,renderer);
+}

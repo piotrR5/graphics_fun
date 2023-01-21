@@ -14,13 +14,6 @@
 
 #endif
 
-void fastRotation(point2& p, double a){
-    double newX=p.x*std::cos(a) - p.y*std::sin(a);
-    double newY=p.x*std::sin(a) + p.y*std::cos(a);
-    p.x=newX;
-    p.y=newY;
-}
-
 Engine::Engine(){
     SDL_Init(SDL_INIT_EVERYTHING);
     window=SDL_CreateWindow("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN); 
@@ -53,20 +46,15 @@ bool Engine::mainLoop(){
 
     */
 
-   point2 a(-200,-200), b(200,-200), c(-200, 200), d(200,200);
-   a.color={255,0,255,255};
-   b.color={255,0,0,255};
-   c.color={0,0,255,255};
-   d.color={255,255,255};
+    point2 a(-200,-200), b(200,-200), c(-200, 200), d(200,200);
+    a.color={255,0,255,255};
+    b.color={255,0,0,255};
+    c.color={0,0,255,255};
+    d.color={255,255,255};
 
-   point2 a1(20,20), b1(20, 180), c1(80, 280);
-   a1.color={255,0,255,255};
-   b1.color={255,0,0,255};
-   c1.color={0,0,255,255};
-
-   
-   //addTriangle(a,b,c);
-    
+    Object2 square({{a,b,c}, {d,c,b}});
+    Object2 axis({{U,D}, {R,L}});
+    std::vector<Object2>objects{square}, AXIS{axis};    
 
     while(run){
         int startLoop=SDL_GetTicks();
@@ -87,18 +75,12 @@ bool Engine::mainLoop(){
         
         */
 
-
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
-        
-        fastRotation(a,0.01);
-        fastRotation(b,0.01);
-        fastRotation(c,0.01);
-        fastRotation(d,0.01);
 
-        draw(transformToFitScreen({{a,b,c}, {b,c,d}}), {69,69,69,255});
-        draw(transformToFitScreen({{U,D}, {R,L}}));
+        draw(transformToFitScreen(objects), DRAW_WIREFRAME_COLOR, {255,200,100,255});
+        draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {200,50,0,255});
 
         SDL_RenderPresent(renderer);
 
@@ -125,69 +107,55 @@ point2 Engine::transformPoint(const point2& p){
     return ret;
 }
 
-std::vector<std::vector<point2>>Engine::transformToFitScreen(const std::vector<std::vector<point2>>& obj){
-    std::vector<std::vector<point2>>ret;
-    for(const auto& o:obj){
-        ret.push_back(std::vector<point2>());
-        for(auto i:o)ret[ret.size()-1].push_back(transformPoint(i));
+std::vector<Object2>Engine::transformToFitScreen(std::vector<Object2>& obj){
+    std::vector<Object2>ret;
+    for(auto& o:obj){
+        std::vector<std::vector<point2>>foo;
+        for(auto& i:o.getVertices()){
+            std::vector<point2>r;
+            for(auto& v:i)r.push_back(transformPoint(v));
+            foo.push_back(r);
+        }
+        ret.push_back(Object2(foo));
+        //ret.getVertices().push_back(std::vector<point2>());
+        //for(auto i:o.getVertices())ret[ret.size()-1].push_back(transformPoint(i));
     }
 
     return ret;
 }
 
-void Engine::draw(const std::vector<std::vector<point2>>& obj){
-    for(const auto& o:obj){
-        switch(o.size()){
-            case 1:{
-                drawPoint(o[0], renderer);
+void Engine::draw(std::vector<Object2> object, uint8_t mode, color_RGBA color){
+    if(mode==DRAW_WIREFRAME_NORMAL){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], renderer);
+                if(i.size()==2)drawLine(i[0],i[1], renderer);
+                if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], renderer);
             }
-            break;
-            case 2:{
-                drawLine(o[0], o[1], renderer);
-            }
-            break;
-            case 3:{
-                drawTriangle(o[0], o[1], o[2], renderer);
-            }
-            break;
         }
-    }
-}
-
-void Engine::draw(const std::vector<std::vector<point2>>& obj, color_RGBA color){
-    for(const auto& o:obj){
-        switch(o.size()){
-            case 1:{
-                drawPoint(o[0], color, renderer);
+    }else if(mode==DRAW_WIREFRAME_COLOR){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], color,renderer);
+                if(i.size()==2)drawLine(i[0],i[1], color,renderer);
+                if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], color, renderer);
             }
-            break;
-            case 2:{
-                drawLine(o[0], o[1], color, renderer);
-            }
-            break;
-            case 3:{
-                drawTriangle(o[0], o[1], o[2], color, renderer);
-            }
-            break;
         }
-    }
-}
-
-void Engine::draw(const std::vector<std::vector<point2>>& obj, bool wireframe){
-    for(const auto& o:obj){
-        switch(o.size()){
-            case 1:{
-                drawPoint(o[0], renderer);
+    }else if(mode==DRAW_NORMAL){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], renderer);
+                if(i.size()==2)drawLine(i[0],i[1], renderer);
+                if(i.size()==3)drawTriangle(i[0],i[1],i[2], renderer);
             }
-            break;
-            case 2:{
-                drawLine(o[0], o[1], renderer);
+        }
+    }else if(mode==DRAW_COLOR){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], color,renderer);
+                if(i.size()==2)drawLine(i[0],i[1], color,renderer);
+                if(i.size()==3)drawTriangle(i[0],i[1],i[2],color, renderer);
             }
-            break;
-            case 3:{
-                drawTriangleMesh(o[0], o[1], o[2], renderer);
-            }
-            break;
         }
     }
 }

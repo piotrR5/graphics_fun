@@ -6,11 +6,15 @@
 #include <vector>
 #include <iostream>
 
+#define DRAW_WIREFRAME_NORMAL 1
+#define DRAW_WIREFRAME_COLOR 2
+#define DRAW_NORMAL 3
+#define DRAW_COLOR 4
+
+#define NULL_COLOR {0,0,0,255}
 
 class Engine{
-    /*
-        it will contain all the sdl backend and objects info
-    */
+
 public:
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -21,10 +25,9 @@ public:
     double my=(double)480/1000;
 
     point2 transformPoint(const point2& p);
-    std::vector<std::vector<point2>>transformToFitScreen(const std::vector<std::vector<point2>>& obj);
-    void draw(const std::vector<std::vector<point2>>& obj);
-    void draw(const std::vector<std::vector<point2>>& obj, color_RGBA color);
-    void draw(const std::vector<std::vector<point2>>& obj, bool wireframe);
+    std::vector<Object2>transformToFitScreen(std::vector<Object2>& obj);
+    void draw(std::vector<Object2> obj, uint8_t mode, color_RGBA color);
+    
 
     bool mainLoop();
 

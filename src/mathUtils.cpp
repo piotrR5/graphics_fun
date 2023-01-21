@@ -1,26 +1,5 @@
 #include "mathUtils.h"
 
-double& matrix4::at(size_t row, char col){
-    return data[row][(col=='w' ? 3 : col-'x')];
-}
-
-vector<vector<double>> matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
-    vector<vector<double>> return_matrix;
-    for(int i=0; i<matrix_1.size(); i++){
-        vector<double> matrix_row;
-        double sum=0;
-        for(int j=0; j<matrix_1.size(); j++){
-            for(int k=0; k<matrix_1.size(); k++){
-                sum+=matrix_1[i][k]*matrix_2[k][j];
-            }
-            matrix_row.push_back(sum);
-            sum=0;
-        }
-        return_matrix.push_back(matrix_row);
-    }
-    return return_matrix;
-}
-
 vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix
     vector<vector<double>> return_matrix;
     double inv[16],invOut[16] , det;
@@ -181,8 +160,83 @@ vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://
 }
 
 
-double& matrix3::at(size_t row, char col){
-    return data[row][col-'x'];
+point3::point3(double x, double y, double z){
+    this->x=x;
+    this->y=y;
+    this->z=z;
+}
+
+point3::point3(){
+    x=0;
+    y=0;
+    z=0;
+}
+
+line3::line3(){
+    a=point3(0,0,0);
+    b=point3(0,0,0);
+}
+
+line3::line3(point3 a, point3 b){
+    this->a=a;
+    this->b=b;
+}
+
+triangle3::triangle3(){
+    a=point3(0,0,0);
+    b=point3(0,0,0);
+    c=point3(0,0,0);
+}
+
+triangle3::triangle3(point3 a, point3 b, point3 c){
+    this->a=a;
+    this->b=b;
+    this->c=c;
+}
+
+double& matrix4::at(size_t row, char col){
+    return data[row][(col=='w' ? 3 : col-'x')];
+}
+
+vector<vector<double>> matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
+    vector<vector<double>> return_matrix;
+    for(int i=0; i<matrix_1.size(); i++){
+        vector<double> matrix_row;
+        double sum=0;
+        for(int j=0; j<matrix_1.size(); j++){
+            for(int k=0; k<matrix_1.size(); k++){
+                sum+=matrix_1[i][k]*matrix_2[k][j];
+            }
+            matrix_row.push_back(sum);
+            sum=0;
+        }
+        return_matrix.push_back(matrix_row);
+    }
+    return return_matrix;
+}
+
+
+
+
+
+point2::point2(double x, double y){
+    this->x=x;
+    this->y=y;
+}
+
+point2::point2(){
+    x=0;
+    y=0;
+}
+
+line2::line2(point2 a, point2 b){
+    this->a=a;
+    this->b=b;
+}
+
+line2::line2(){
+    a=point2();
+    b=point2();
 }
 
 triangle2::triangle2(point2 a, point2 b, point2 c){
@@ -197,24 +251,6 @@ triangle2::triangle2(){
     c=point2();
 }
 
-line2::line2(point2 a, point2 b){
-    this->a=a;
-    this->b=b;
+double& matrix3::at(size_t row, char col){
+    return data[row][col-'x'];
 }
-
-line2::line2(){
-    a=point2();
-    b=point2();
-}
-
-point2::point2(double x, double y){
-    this->x=x;
-    this->y=y;
-}
-
-point2::point2(){
-    x=0;
-    y=0;
-}
-
-
