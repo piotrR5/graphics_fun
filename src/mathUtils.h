@@ -2,12 +2,9 @@
 #include <cmath>
 #include <iostream>
 
-<<<<<<< HEAD
 #ifndef MATHUTILS
 #define MATHUTILS
-=======
 using namespace std;
->>>>>>> d736423f037ccb2058ad47cc3326db585a28079e
 
 /*
     punkt 3d
@@ -65,9 +62,9 @@ class matrix4{
 
     double& at(size_t row, char col);
 
-    vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2)
+    vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2);
 
-    vector<vector<double>> inverse_matrix(vector<vector<double>> matrix)
+    vector<vector<double>> inverse_matrix(vector<vector<double>> matrix);
     
 };
 

@@ -97,7 +97,7 @@ bool Engine::mainLoop(){
         fastRotation(c,0.01);
         fastRotation(d,0.01);
 
-        draw(transformToFitScreen({{a,b,c}, {b,c,d}}));
+        draw(transformToFitScreen({{a,b,c}, {b,c,d}}), {69,69,69,255});
         draw(transformToFitScreen({{U,D}, {R,L}}));
 
         SDL_RenderPresent(renderer);
