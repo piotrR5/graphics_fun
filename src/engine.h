@@ -25,25 +25,6 @@ public:
     void draw(const std::vector<std::vector<point2>>& obj);
     void draw(const std::vector<std::vector<point2>>& obj, color_RGBA color);
     void draw(const std::vector<std::vector<point2>>& obj, bool wireframe);
-    // void tranformToFitScreen();
-
-    // void drawAll();
-
-    // void addTriangle(point2 a, point2 b, point2 c);
-    // void addTriangle(triangle2 t);
-    // void popTriangle();
-    // void removeTriangle(std::size_t i);
-
-    // void addLine(point2 a, point2 b);
-    // void addLine(line2 l);
-    // void popLine();
-    // void removeLine(std::size_t i);
-
-    // void addPoint(point2 p);
-    // void popPoint();
-    // void removePoint(std::size_t i);
-
-
 
     bool mainLoop();
 
