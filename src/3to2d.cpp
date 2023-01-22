@@ -12,7 +12,7 @@ Vec4 Camera::get_projection_plane(){
 }
 
 vector<Object2> projection(Camera _camera, vector<Object3> objects){
-
+    return {Object2()};
 }
 
 Vec3 intersection_point(Camera _camera, Vec3 vertex){
@@ -31,15 +31,18 @@ Vec3 intersection_point(Camera _camera, Vec3 vertex){
         vertex.x+t*point_camera_vector.x,
         vertex.y+t*point_camera_vector.y,
         vertex.z+t*point_camera_vector.z
-    }
+    };
+
+    return return_point;
 }
 
 Vec2 find_point_coordinates_on_plane(Camera _camera, Vec3 _intersection_point){
     double camera_angle_vertical, camera_angle_horizontal, point_angle_horizontal, point_angle_vertical;
-    
+
+    return {0,0};
 }
 
-double distance_from_camera(Vec3 _camera_origin ,Vec3 vertex){
+double distance_from_camera(Vec3 camera_origin ,Vec3 vertex){
     return sqrt((camera_origin.x-vertex.x)*(camera_origin.x-vertex.x)+
     (camera_origin.y-vertex.y)*(camera_origin.y-vertex.y)+
     (camera_origin.z-vertex.z)*(camera_origin.z-vertex.z));

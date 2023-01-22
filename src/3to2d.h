@@ -15,12 +15,11 @@ class Camera{
 
     public:
     Camera();
-    Camera(){};
 
     Vec3 get_camera_origin();
 
     Vec4 get_projection_plane();
-}
+};
 
 vector<Object2> projection(Camera _camera,vector<Object3> objects);
 
