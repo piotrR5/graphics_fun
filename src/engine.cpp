@@ -79,7 +79,6 @@ bool Engine::mainLoop(){
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
-
         draw(transformToFitScreen(objects), DRAW_NORMAL, {255,200,100,255});
         draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {200,50,0,255});
         
