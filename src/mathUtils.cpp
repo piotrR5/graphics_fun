@@ -1,6 +1,6 @@
 #include "mathUtils.h"
 
-void vec4::add(vec4 v){
+void Vec4::add(Vec4 v){
     x+=v.x;
     y+=v.y;
     z+=v.z;
@@ -12,8 +12,8 @@ vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://
     double inv[16],invOut[16] , det;
     int i,p=0;
     double m[16];
-    for(int i=0; i<matrix.size(); i++){
-        for(int j=0; j<matrix.size(); j++){
+    for(size_t i=0; i<matrix.size(); i++){
+        for(size_t j=0; j<matrix.size(); j++){
             m[p]=matrix[i][j];
             p++;
         }
@@ -138,95 +138,107 @@ vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://
     for (i = 0; i < 16; i++)
         invOut[i] = inv[i] * det;
 
-    vector<double> matrix_row;
-    matrix_row.push_back(invOut[0]);
-    matrix_row.push_back(invOut[1]);
-    matrix_row.push_back(invOut[2]);
-    matrix_row.push_back(invOut[3]);
-    return_matrix.push_back(matrix_row);
-    matrix_row.erase(matrix_row.begin(), matrix_row.end());
-    matrix_row.push_back(invOut[4]);
-    matrix_row.push_back(invOut[5]);
-    matrix_row.push_back(invOut[6]);
-    matrix_row.push_back(invOut[7]);
-    return_matrix.push_back(matrix_row);
-    matrix_row.erase(matrix_row.begin(), matrix_row.end());
-    matrix_row.push_back(invOut[8]);
-    matrix_row.push_back(invOut[9]);
-    matrix_row.push_back(invOut[10]);
-    matrix_row.push_back(invOut[11]);
-    return_matrix.push_back(matrix_row);
-    matrix_row.erase(matrix_row.begin(), matrix_row.end());
-    matrix_row.push_back(invOut[12]);
-    matrix_row.push_back(invOut[13]);
-    matrix_row.push_back(invOut[14]);
-    matrix_row.push_back(invOut[15]);
-    return_matrix.push_back(matrix_row);
+
+    for(size_t i=0;i<=3;i++){
+            return_matrix.push_back(std::vector<double>());
+        for(size_t j=0;j<=3;j++){
+            return_matrix[return_matrix.size()-1].push_back(invOut[i*4+j]);
+        }
+    }
+
+    /*
+        CODE BY Jakub Wilkosz
+    */
+
+    // vector<double> matrix_row;
+    // matrix_row.push_back(invOut[0]);
+    // matrix_row.push_back(invOut[1]);
+    // matrix_row.push_back(invOut[2]);
+    // matrix_row.push_back(invOut[3]);
+    // return_matrix.push_back(matrix_row);
+    // matrix_row.erase(matrix_row.begin(), matrix_row.end());
+    // matrix_row.push_back(invOut[4]);
+    // matrix_row.push_back(invOut[5]);
+    // matrix_row.push_back(invOut[6]);
+    // matrix_row.push_back(invOut[7]);
+    // return_matrix.push_back(matrix_row);
+    // matrix_row.erase(matrix_row.begin(), matrix_row.end());
+    // matrix_row.push_back(invOut[8]);
+    // matrix_row.push_back(invOut[9]);
+    // matrix_row.push_back(invOut[10]);
+    // matrix_row.push_back(invOut[11]);
+    // return_matrix.push_back(matrix_row);
+    // matrix_row.erase(matrix_row.begin(), matrix_row.end());
+    // matrix_row.push_back(invOut[12]);
+    // matrix_row.push_back(invOut[13]);
+    // matrix_row.push_back(invOut[14]);
+    // matrix_row.push_back(invOut[15]);
+    // return_matrix.push_back(matrix_row);
 
     return return_matrix;
 }
 
-point3::point3(double x, double y, double z){
+Point3::Point3(double x, double y, double z){
     this->x=x;
     this->y=y;
     this->z=z;
 }
 
-point3::point3(){
+Point3::Point3(){
     x=0;
     y=0;
     z=0;
 }
 
-void point3::add(vec3 v){
+void Point3::add(Vec3 v){
     x+=v.x;
     y+=v.y;
     z+=v.z;
 }
 
-vec3 point3::makeVec3(){
+Vec3 Point3::makeVec3(){
     return {x, y, z};
 }
 
-line3::line3(){
-    a=point3(0,0,0);
-    b=point3(0,0,0);
+Line3::Line3(){
+    a=Point3(0,0,0);
+    b=Point3(0,0,0);
 }
 
-line3::line3(point3 a, point3 b){
+Line3::Line3(Point3 a, Point3 b){
     this->a=a;
     this->b=b;
 }
 
-triangle3::triangle3(){
-    a=point3(0,0,0);
-    b=point3(0,0,0);
-    c=point3(0,0,0);
+Triangle3::Triangle3(){
+    a=Point3(0,0,0);
+    b=Point3(0,0,0);
+    c=Point3(0,0,0);
 }
 
-triangle3::triangle3(point3 a, point3 b, point3 c){
+Triangle3::Triangle3(Point3 a, Point3 b, Point3 c){
     this->a=a;
     this->b=b;
     this->c=c;
 }
 
-void vec3::add(vec3 v){
+void Vec3::add(Vec3 v){
     x+=v.x;
     y+=v.y;
     z+=v.z;
 }
 
-double& matrix4::at(size_t row, char col){
+double& Matrix4::at(size_t row, char col){
     return data[row][(col=='w' ? 3 : col-'x')];
 }
 
-vector<vector<double>> matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
+vector<vector<double>> Matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
     vector<vector<double>> return_matrix;
-    for(int i=0; i<matrix_1.size(); i++){
+    for(size_t i=0; i<matrix_1.size(); i++){
         vector<double> matrix_row;
         double sum=0;
-        for(int j=0; j<matrix_1.size(); j++){
-            for(int k=0; k<matrix_1.size(); k++){
+        for(size_t j=0; j<matrix_1.size(); j++){
+            for(size_t k=0; k<matrix_1.size(); k++){
                 sum+=matrix_1[i][k]*matrix_2[k][j];
             }
             matrix_row.push_back(sum);
@@ -241,52 +253,52 @@ vector<vector<double>> matrix4::multip_matrix(vector<vector<double>> matrix_1, v
 
 
 
-point2::point2(double x, double y){
+Point2::Point2(double x, double y){
     this->x=x;
     this->y=y;
 }
 
-point2::point2(){
+Point2::Point2(){
     x=0;
     y=0;
 }
 
-void point2::add(vec2 v){
+void Point2::add(Vec2 v){
     x+=v.x;
     y+=v.y;
 }
 
-vec2 point2::makeVec2(){
+Vec2 Point2::makeVec2(){
     return {x,y};
 }
 
-line2::line2(point2 a, point2 b){
+Line2::Line2(Point2 a, Point2 b){
     this->a=a;
     this->b=b;
 }
 
-line2::line2(){
-    a=point2();
-    b=point2();
+Line2::Line2(){
+    a=Point2();
+    b=Point2();
 }
 
-triangle2::triangle2(point2 a, point2 b, point2 c){
+Triangle2::Triangle2(Point2 a, Point2 b, Point2 c){
     this->a=a;
     this->b=b;
     this->c=c;
 }
 
-triangle2::triangle2(){
-    a=point2();
-    b=point2();
-    c=point2();
+Triangle2::Triangle2(){
+    a=Point2();
+    b=Point2();
+    c=Point2();
 }
 
-void vec2::add(vec2 v){
+void Vec2::add(Vec2 v){
     x+=v.x;
     y+=v.y;
 }
 
-double& matrix3::at(size_t row, char col){
+double& Matrix3::at(size_t row, char col){
     return data[row][col-'x'];
 }

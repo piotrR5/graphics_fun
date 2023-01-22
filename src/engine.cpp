@@ -1,4 +1,5 @@
 #include "engine.h"
+#include "STL_utils.cpp"
 
 #ifdef __linux__ 
     //linux code goes here
@@ -37,7 +38,7 @@ bool Engine::mainLoop(){
     /*
         axis:
     */
-    point2 R(500,0),L(-500, 0),U(0, 500),D(0, -500);
+    Point2 R(500,0),L(-500, 0),U(0, 500),D(0, -500);
     R.color={100,100,100,255};
     L.color={100,100,100,255};
     U.color={100,100,100,255};
@@ -46,7 +47,7 @@ bool Engine::mainLoop(){
 
     */
 
-    point2 a(-200,-200), b(200,-200), c(-200, 200), d(200,200);
+    Point2 a(-200,-200), b(200,-200), c(-200, 200), d(200,200);
     a.color={255,0,255,255};
     b.color={255,0,0,255};
     c.color={0,0,255,255};
@@ -55,7 +56,9 @@ bool Engine::mainLoop(){
     Object2 square({{a,b,c}, {d,c,b}});
     Object2 axis({{U,D}, {R,L}});
     std::vector<Object2>objects{square}, AXIS{axis};  
-    objects[0].setAxis({100,100});  
+    objects[0].setAxis({100,100});      
+
+    
 
     while(run){
         int startLoop=SDL_GetTicks();
@@ -79,7 +82,7 @@ bool Engine::mainLoop(){
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
-        draw(transformToFitScreen(objects), DRAW_NORMAL, {255,200,100,255});
+        draw(transformToFitScreen(objects), DRAW_WIREFRAME_NORMAL, {255,200,100,255});
         draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {200,50,0,255});
         
         objects[0].rotate(0.02);
@@ -102,8 +105,8 @@ bool Engine::mainLoop(){
     return 0;
 }
 
-point2 Engine::transformPoint(const point2& p){
-    point2 ret;
+Point2 Engine::transformPoint(const Point2& p){
+    Point2 ret;
     ret.x=(500+p.x)*mx;
     ret.y=(500-p.y)*my;
     ret.color=p.color;
@@ -113,21 +116,21 @@ point2 Engine::transformPoint(const point2& p){
 std::vector<Object2>Engine::transformToFitScreen(std::vector<Object2>& obj){
     std::vector<Object2>ret;
     for(auto& o:obj){
-        std::vector<std::vector<point2>>foo;
+        std::vector<std::vector<Point2>>foo;
         for(auto& i:o.getVertices()){
-            std::vector<point2>r;
+            std::vector<Point2>r;
             for(auto& v:i)r.push_back(transformPoint(v));
             foo.push_back(r);
         }
         ret.push_back(Object2(foo));
-        //ret.getVertices().push_back(std::vector<point2>());
+        //ret.getVertices().push_back(std::vector<Point2>());
         //for(auto i:o.getVertices())ret[ret.size()-1].push_back(transformPoint(i));
     }
 
     return ret;
 }
 
-void Engine::draw(std::vector<Object2> object, uint8_t mode, color_RGBA color){
+void Engine::draw(std::vector<Object2> object, uint8_t mode, Color_RGBA color){
     if(mode==DRAW_WIREFRAME_NORMAL){
         for(auto& o:object){
             for(auto& i:o.getVertices()){
@@ -162,6 +165,10 @@ void Engine::draw(std::vector<Object2> object, uint8_t mode, color_RGBA color){
         }
     }
 }
+
+// void Engine::draw(std::vector<Object2> obj, Color_RGBA (*shader)(int i)){
+//     std::cout<<(int)shader(1).r<<" ";
+// }
 
 
 

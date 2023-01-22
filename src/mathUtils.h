@@ -6,56 +6,56 @@
 #define MATHUTILS
 using namespace std;
 
-struct color_RGBA{
+struct Color_RGBA{
     uint8_t r=0, g=0, b=0, a=255;
 };
 
 
-struct vec4{
+struct Vec4{
     double x=0, y=0, z=0, w=0;
-    void add(vec4 v);
+    void add(Vec4 v);
 };
 
-struct vec3{
+struct Vec3{
     double x=0, y=0, z=0;
-    void add(vec3 v);
+    void add(Vec3 v);
 };
 
-struct vec2{
+struct Vec2{
     double x=0, y=0;
-    void add(vec2 v);
+    void add(Vec2 v);
 };
 
-struct point3{
+struct Point3{
     double x=0,y=0,z=0;
-    color_RGBA color;
+    Color_RGBA color;
 
-    void add(vec3 v);
+    void add(Vec3 v);
 
-    vec3 makeVec3();
+    Vec3 makeVec3();
 
-    point3(double x, double y, double z);
-    point3();
+    Point3(double x, double y, double z);
+    Point3();
 };
 
-struct line3{
-    point3 a,b;
-    line3();
-    line3(point3 a, point3 b);
+struct Line3{
+    Point3 a,b;
+    Line3();
+    Line3(Point3 a, Point3 b);
 };
 
-struct triangle3{
-    point3 a,b,c;
-    triangle3();
-    triangle3(point3 a, point3 b, point3 c);
+struct Triangle3{
+    Point3 a,b,c;
+    Triangle3();
+    Triangle3(Point3 a, Point3 b, Point3 c);
 };
 
-class matrix4{
+class Matrix4{
     vector<vector<double>> data;
 
     public:
     
-    matrix4(){
+    Matrix4(){
         vector<double> data_row(4, 0);
         for(int i=0; i<4; i++) data.push_back(data_row);
     }
@@ -69,31 +69,31 @@ class matrix4{
 
 
 
-struct point2{
+struct Point2{
     double x=0,y=0;
-    color_RGBA color;
+    Color_RGBA color;
 
-    void add(vec2 v);
+    void add(Vec2 v);
 
-    vec2 makeVec2();
+    Vec2 makeVec2();
 
-    point2(double x, double y);
-    point2();
+    Point2(double x, double y);
+    Point2();
 };
 
-struct line2{
-    point2 a,b;
-    line2();
-    line2(point2 a, point2 b);
+struct Line2{
+    Point2 a,b;
+    Line2();
+    Line2(Point2 a, Point2 b);
 };
 
-struct triangle2{
-    point2 a,b,c;
-    triangle2();
-    triangle2(point2 a, point2 b, point2 c);
+struct Triangle2{
+    Point2 a,b,c;
+    Triangle2();
+    Triangle2(Point2 a, Point2 b, Point2 c);
 };
 
-class matrix3{
+class Matrix3{
     double data[3][3];
     double& at(std::size_t row, char col);
 };

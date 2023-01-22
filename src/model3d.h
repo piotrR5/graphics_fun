@@ -6,25 +6,25 @@
 #define MODEL3D
 
 class Object3{
-    std::vector<std::vector<point3>>vertices;
-    point3 axis;
+    std::vector<std::vector<Point3>>vertices;
+    Point3 axis;
     
 
 public:
     Object3();
-    Object3(std::vector<std::vector<point3>>v);
-    Object3(std::vector<std::vector<point3>>v, point3 a);
-    Object3(point3 a);
-    void addVertices(std::vector<std::vector<point3>>v);
-    void setAxis(point3 a);
-    std::vector<std::vector<point3>>& getVertives();
-    point3& getAxis();
+    Object3(std::vector<std::vector<Point3>>v);
+    Object3(std::vector<std::vector<Point3>>v, Point3 a);
+    Object3(Point3 a);
+    void addVertices(std::vector<std::vector<Point3>>v);
+    void setAxis(Point3 a);
+    std::vector<std::vector<Point3>>& getVertives();
+    Point3& getAxis();
 };
 
 //TODO:
     //rotating by 3 angles
-    //moving by vec3
-    //setting the position using vec3 (position of axis)
+    //moving by Vec3
+    //setting the position using Vec3 (position of axis)
     //scale by a double value
 
 #endif

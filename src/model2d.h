@@ -6,25 +6,25 @@
 #define MODEL2D
 
 class Object2{
-    std::vector<std::vector<point2>>vertices;
-    vec2 axis;
+    std::vector<std::vector<Point2>>vertices;
+    Vec2 axis;
     
 public:
     Object2();
-    Object2(std::vector<std::vector<point2>>v);
-    Object2(std::vector<std::vector<point2>>v, vec2 a);
-    Object2(vec2 a);
-    void addVertices(std::vector<std::vector<point2>>v);
-    void setAxis(vec2 a);
-    std::vector<std::vector<point2>>& getVertices();
-    vec2& getAxis();
+    Object2(std::vector<std::vector<Point2>>v);
+    Object2(std::vector<std::vector<Point2>>v, Vec2 a);
+    Object2(Vec2 a);
+    void addVertices(std::vector<std::vector<Point2>>v);
+    void setAxis(Vec2 a);
+    std::vector<std::vector<Point2>>& getVertices();
+    Vec2& getAxis();
 
 
 
 
     void rotate(double a);
-    void move(vec2 vec);
-    void setPos(vec2 vec);
+    void move(Vec2 vec);
+    void setPos(Vec2 vec);
     void scale(double x);
 
     //TODO:

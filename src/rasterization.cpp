@@ -1,19 +1,19 @@
 #include "rasterization.h"
 #include <iostream>
 
-void drawPoint(point2 a, SDL_Renderer* renderer){
+void drawPoint(Point2 a, SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, a.color.r, a.color.g, a.color.b, a.color.a);
     SDL_RenderDrawPoint(renderer, a.x, a.y);
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
 }
 
-void drawPoint(point2 a, color_RGBA color, SDL_Renderer* renderer){
+void drawPoint(Point2 a, Color_RGBA color, SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawPoint(renderer, a.x, a.y);
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
 }
 
-void drawLineBresenham(point2 a, point2 b, SDL_Renderer* renderer){
+void drawLineBresenham(Point2 a, Point2 b, SDL_Renderer* renderer){
     int x0=a.x, y0=a.y;
     int x1=b.x, y1=b.y;
 
@@ -43,12 +43,12 @@ void drawLineBresenham(point2 a, point2 b, SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
 }
 
-color_RGBA linearColorInterpolation(point2 a, point2 b, point2 m){
+Color_RGBA linearColorInterpolation(Point2 a, Point2 b, Point2 m){
     double f=0.0;
     if(b.x-a.x)f=(m.x-a.x)/(b.x-a.x);
     else if(b.y-a.y)f=(m.y-a.y)/(b.y-a.y);
 
-    color_RGBA ret;
+    Color_RGBA ret;
 
     ret.r=(b.color.r - a.color.r) * f + a.color.r;
     ret.g=(b.color.g - a.color.g) * f + a.color.g;
@@ -59,10 +59,10 @@ color_RGBA linearColorInterpolation(point2 a, point2 b, point2 m){
     return ret;
 }
 
-void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
-    color_RGBA c0=a.color;
-    color_RGBA c1=b.color;
-    color_RGBA c;
+void drawLine(Point2 a, Point2 b, SDL_Renderer* renderer){
+    Color_RGBA c0=a.color;
+    Color_RGBA c1=b.color;
+    Color_RGBA c;
 
     int x0=a.x, y0=a.y;
     int x1=b.x, y1=b.y;
@@ -73,7 +73,7 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
     int sy=y0 < y1 ? 1 : -1;
     int error = dx + dy;
     while(true){
-        point2 m;
+        Point2 m;
         m.x=x0;
         m.y=y0;
         c=linearColorInterpolation(a,b, m);
@@ -97,10 +97,10 @@ void drawLine(point2 a, point2 b, SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
 }
 
-void drawLine(point2 a, point2 b, color_RGBA color, SDL_Renderer* renderer){
-    color_RGBA c0=a.color;
-    color_RGBA c1=b.color;
-    color_RGBA c;
+void drawLine(Point2 a, Point2 b, Color_RGBA color, SDL_Renderer* renderer){
+    Color_RGBA c0=a.color;
+    Color_RGBA c1=b.color;
+    Color_RGBA c;
 
     int x0=a.x, y0=a.y;
     int x1=b.x, y1=b.y;
@@ -111,7 +111,7 @@ void drawLine(point2 a, point2 b, color_RGBA color, SDL_Renderer* renderer){
     int sy=y0 < y1 ? 1 : -1;
     int error = dx + dy;
     while(true){
-        point2 m;
+        Point2 m;
         m.x=x0;
         m.y=y0;
         c=color;
@@ -135,7 +135,7 @@ void drawLine(point2 a, point2 b, color_RGBA color, SDL_Renderer* renderer){
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
 }
 
-double getA(point2& a, point2& b){
+double getA(Point2& a, Point2& b){
     if(a.x-b.x==0){
         a.x++;
         return (b.y-a.y)/(b.x-a.x);
@@ -144,15 +144,15 @@ double getA(point2& a, point2& b){
     else return (b.y-a.y)/(b.x-a.x);
 }
 
-double getB(point2 p, double a){
+double getB(Point2 p, double a){
     double ret=0.0;
 
     if(a==INT_BIG)return INT_BIG;
     return p.y - a*p.x;
 }
 
-point2 linesIntersection(double A1, double B1, double A2, double B2){
-    point2 ret;
+Point2 linesIntersection(double A1, double B1, double A2, double B2){
+    Point2 ret;
     if(A1-A2)ret.x=(B2-B1)/(A1-A2);
     if(!(B2-B1))ret.x=INT_BIG;
     ret.y=A1*ret.x+B1;
@@ -160,13 +160,13 @@ point2 linesIntersection(double A1, double B1, double A2, double B2){
     return ret;
 }
 
-bool isInDomain(point2 x, point2 a, point2 b){
+bool isInDomain(Point2 x, Point2 a, Point2 b){
     if(x.x > a.x && x.x > b.x)return false;
     if(x.x < a.x && x.x < b.x)return false;
     return true;
 }
 
-void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
+void drawTriangle(Point2 a, Point2 b, Point2 c, SDL_Renderer* renderer){
     int miny=std::min(a.y, std::min(b.y,c.y));
     int maxy=std::max(a.y, std::max(b.y,c.y));
 
@@ -182,12 +182,12 @@ void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
     B[1]=getB(b, A[1]);
     B[2]=getB(c, A[2]);
 
-    point2 i,j;
+    Point2 i,j;
 
     for(int y=miny; y<=maxy;y++){
         double Ay=0;
         double By=y;
-        point2 intersections[3];
+        Point2 intersections[3];
         for(int i=0;i<3;i++)intersections[i]=linesIntersection(A[i], B[i], Ay, By);
 
         if(isInDomain(intersections[0], a, b) && isInDomain(intersections[1], b,c)){
@@ -229,7 +229,7 @@ void drawTriangle(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
     }
 }
 
-void drawTriangle(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* renderer){
+void drawTriangle(Point2 a, Point2 b, Point2 c, Color_RGBA color, SDL_Renderer* renderer){
     int miny=std::min(a.y, std::min(b.y,c.y));
     int maxy=std::max(a.y, std::max(b.y,c.y));
 
@@ -245,12 +245,12 @@ void drawTriangle(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* 
     B[1]=getB(b, A[1]);
     B[2]=getB(c, A[2]);
 
-    point2 i,j;
+    Point2 i,j;
 
     for(int y=miny; y<=maxy;y++){
         double Ay=0;
         double By=y;
-        point2 intersections[3];
+        Point2 intersections[3];
         for(int i=0;i<3;i++)intersections[i]=linesIntersection(A[i], B[i], Ay, By);
 
         if(isInDomain(intersections[0], a, b) && isInDomain(intersections[1], b,c)){
@@ -292,13 +292,13 @@ void drawTriangle(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* 
     }
 }
 
-void drawTriangleMesh(point2 a, point2 b, point2 c, SDL_Renderer* renderer){
+void drawTriangleMesh(Point2 a, Point2 b, Point2 c, SDL_Renderer* renderer){
     drawLine(a,b,renderer);
     drawLine(b,c,renderer);
     drawLine(c,a,renderer);
 }
 
-void drawTriangleMesh(point2 a, point2 b, point2 c, color_RGBA color, SDL_Renderer* renderer){
+void drawTriangleMesh(Point2 a, Point2 b, Point2 c, Color_RGBA color, SDL_Renderer* renderer){
     drawLine(a,b,color,renderer);
     drawLine(b,c,color,renderer);
     drawLine(c,a,color,renderer);

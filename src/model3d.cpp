@@ -2,35 +2,35 @@
 #include "model3d.h"
 
 Object3::Object3(){
-    axis=point3();
+    axis=Point3();
 }
 
-Object3::Object3(std::vector<std::vector<point3>>v){
+Object3::Object3(std::vector<std::vector<Point3>>v){
     vertices=v;
-    axis=point3();
+    axis=Point3();
 }
 
-Object3::Object3(std::vector<std::vector<point3>>v, point3 a){
+Object3::Object3(std::vector<std::vector<Point3>>v, Point3 a){
     vertices=v;
     axis=a;
 }
 
-Object3::Object3(point3 a){
+Object3::Object3(Point3 a){
     axis=a;
 }
 
-void Object3::addVertices(std::vector<std::vector<point3>>v){
+void Object3::addVertices(std::vector<std::vector<Point3>>v){
     for(auto o:v)vertices.push_back(o);
 }
 
-void Object3::setAxis(point3 a){
+void Object3::setAxis(Point3 a){
     axis=a;
 }
 
-std::vector<std::vector<point3>>& Object3::getVertives(){
+std::vector<std::vector<Point3>>& Object3::getVertives(){
     return vertices;
 }
 
-point3& Object3::getAxis(){
+Point3& Object3::getAxis(){
     return axis;
 }

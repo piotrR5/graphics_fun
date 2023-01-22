@@ -24,9 +24,10 @@ public:
     double mx=(double)640/1000;
     double my=(double)480/1000;
 
-    point2 transformPoint(const point2& p);
+    Point2 transformPoint(const Point2& p);
     std::vector<Object2>transformToFitScreen(std::vector<Object2>& obj);
-    void draw(std::vector<Object2> obj, uint8_t mode, color_RGBA color);
+    void draw(std::vector<Object2> obj, uint8_t mode, Color_RGBA color);
+    // void draw(std::vector<Object2> obj, Color_RGBA (*shader)(int i));
     
 
     bool mainLoop();
