@@ -1,7 +1,9 @@
 #include <SDL2/SDL.h>
 #include "mathUtils.h"
+#include "constants.h"
 
-#define INT_BIG 20000000
+
+
 
 #ifndef RASTERIZATION
 #define RASTERIZATION

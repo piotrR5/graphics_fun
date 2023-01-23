@@ -2,3 +2,14 @@
 #define SCREEN_HEIGHT 480
 #define VIEW_WIDTH 1920
 #define VIEW_HEIGHT 1440
+
+#define NULL_COLOR {0,0,0,255}
+
+#define DRAW_WIREFRAME_NORMAL 1
+#define DRAW_WIREFRAME_COLOR 2
+#define DRAW_NORMAL 3
+#define DRAW_COLOR 4
+
+
+
+#define INT_BIG 20000000

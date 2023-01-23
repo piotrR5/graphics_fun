@@ -7,12 +7,11 @@
 #include <vector>
 #include <iostream>
 
-#define DRAW_WIREFRAME_NORMAL 1
-#define DRAW_WIREFRAME_COLOR 2
-#define DRAW_NORMAL 3
-#define DRAW_COLOR 4
+#include "constants.h"
 
-#define NULL_COLOR {0,0,0,255}
+
+
+
 
 /*
     engine.h file is meant to contain implementation of drawing functions (functions to diffrently draw triangles, lines, objects etc)
@@ -27,8 +26,8 @@ public:
     int fps=60;
     int desiredDT=1000/fps;
 
-    double mx=(double)640/1000;
-    double my=(double)480/1000;
+    double mx=(double)SCREEN_WIDTH/VIEW_WIDTH;
+    double my=(double)SCREEN_HEIGHT/VIEW_HEIGHT;
 
 
     /*

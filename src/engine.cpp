@@ -18,7 +18,7 @@
 
 Engine::Engine(){
     SDL_Init(SDL_INIT_EVERYTHING);
-    window=SDL_CreateWindow("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN); 
+    window=SDL_CreateWindow("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN); 
     renderer=SDL_CreateRenderer(window, -1, 0);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -51,16 +51,17 @@ bool Engine::mainLoop(){
     /*
         axis:
     */
-    Point2 R(500,0),L(-500, 0),U(0, 500),D(0, -500);
+    Point2 R(VIEW_WIDTH/2,0),L(-VIEW_WIDTH/2, 0),U(0, VIEW_HEIGHT/2),D(0, -VIEW_HEIGHT/2);
     R.color={100,100,100,255};
     L.color={100,100,100,255};
     U.color={100,100,100,255};
     D.color={100,100,100,255};
+    Object2 axis({{U,D}, {R,L}});
+    std::vector<Object2>AXIS{axis}; 
     /*
 
     */
-    Object2 axis({{U,D}, {R,L}});
-    std::vector<Object2>AXIS{axis};      
+         
 
     STLObject stl_cube, stl_o1;
     stl_cube.read_file("stl_models/Artifact.stl");
@@ -71,26 +72,17 @@ bool Engine::mainLoop(){
 
     for(auto& i:cube.getVertives()){
         for(auto& j:i){
-            j.x-=20;
-            j.z+=50;
-            j.y-=20;
+            j.x-=40;
+            j.z+=500;
+            j.y-=50;
         }
     }
 
     for(auto& i:senor.getVertives()){
         for(auto& j:i){
             j.x+=40;
-            j.z+=50;
+            j.z+=500;
             j.y+=30;
-        }
-    }
-
-    for(auto& i:cube.getVertives()){
-        for(auto& j:i){
-            double foo=j.y;
-            j.x*=5;
-            j.z*=5;
-            j.y*=5;
         }
     }
 
@@ -118,18 +110,24 @@ bool Engine::mainLoop(){
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
-        //draw(transformToFitScreen(objects), DRAW_NORMAL, {255,200,100,255});
 
-        std::vector<Object2>moai=transformToFitScreen(projection(camera,{cube}));
+
+        for(auto& i:senor.getVertives()){
+        for(auto& j:i){
+            j.x+=1;
+            //j.z+=0.5;
+            //j.y+=30;
+        }
+    }
 
         draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {200,50,0,255});
         draw(
-            moai,
+            transformToFitScreen(projection(camera,{cube})),
             DRAW_COLOR,
             {69,0,200,255}
         );
 
-        draw(transformToFitScreen(projection(camera, {senor})),DRAW_COLOR, {0,255,0,255});
+        draw(transformToFitScreen(projection(camera, {senor})),DRAW_WIREFRAME_COLOR, {0,255,0,255});
 
 
         SDL_RenderPresent(renderer);
@@ -151,8 +149,8 @@ bool Engine::mainLoop(){
 
 Point2 Engine::transformPoint(const Point2& p){
     Point2 ret;
-    ret.x=(500+p.x)*mx;
-    ret.y=(500-p.y)*my;
+    ret.x=(VIEW_WIDTH/2+p.x)*mx;
+    ret.y=(VIEW_HEIGHT/2-p.y)*my;
     ret.color=p.color;
     return ret;
 }

@@ -2,6 +2,8 @@
 #include <vector>
 #include <iostream>
 #include <ctime>
+#include "constants.h"
+
 
 /*
     this file is meant to implement shader objects, might not work :D

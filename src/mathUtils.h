@@ -1,6 +1,8 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include "constants.h"
+
 
 #ifndef MATHUTILS
 #define MATHUTILS

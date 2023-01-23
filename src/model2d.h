@@ -1,6 +1,8 @@
 #include <vector>
 #include <cmath>
 #include "mathUtils.h"
+#include "constants.h"
+
 
 #ifndef MODEL2D
 #define MODEL2D

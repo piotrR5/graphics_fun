@@ -2,6 +2,8 @@
 #include <string>
 #include <fstream>
 #include <filesystem>
+#include "constants.h"
+
 
 #include "mathUtils.h"
 
