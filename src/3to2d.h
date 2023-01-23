@@ -15,6 +15,7 @@ class Camera{
 
     public:
     Camera();
+    Camera(Vec3, Vec4);
 
     Vec3 get_camera_origin();
 

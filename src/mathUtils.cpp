@@ -197,7 +197,7 @@ void Point3::add(Vec3 v){
 }
 
 Vec3 Point3::makeVec3(){
-    return {x, y, z};
+    return Vec3{x, y, z};
 }
 
 Line3::Line3(){

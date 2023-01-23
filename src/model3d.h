@@ -13,6 +13,7 @@ class Object3{
 public:
     Object3();
     Object3(std::vector<std::vector<Point3>>v);
+    Object3(std::vector<std::vector<Vec3>>v);
     Object3(std::vector<std::vector<Point3>>v, Point3 a);
     Object3(Point3 a);
     void addVertices(std::vector<std::vector<Point3>>v);

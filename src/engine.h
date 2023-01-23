@@ -3,6 +3,7 @@
 #include "model2d.h"
 #include "model3d.h"
 #include "mathUtils.h"
+#include "shader.h"
 #include <vector>
 #include <iostream>
 
@@ -25,7 +26,7 @@ public:
     double my=(double)480/1000;
 
     Point2 transformPoint(const Point2& p);
-    std::vector<Object2>transformToFitScreen(std::vector<Object2>& obj);
+    std::vector<Object2>transformToFitScreen(std::vector<Object2> obj);
     void draw(std::vector<Object2> obj, uint8_t mode, Color_RGBA color);
     // void draw(std::vector<Object2> obj, Color_RGBA (*shader)(int i));
     

@@ -10,6 +10,16 @@ Object3::Object3(std::vector<std::vector<Point3>>v){
     axis=Point3();
 }
 
+Object3::Object3(std::vector<std::vector<Vec3>>v){
+    for(auto& i:v){
+        std::vector<Point3>temp;
+        for(auto& j:i){
+            temp.push_back({j.x, j.y, j.z});
+        }
+        vertices.push_back(temp);
+    }
+}
+
 Object3::Object3(std::vector<std::vector<Point3>>v, Point3 a){
     vertices=v;
     axis=a;

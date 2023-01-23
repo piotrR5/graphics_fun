@@ -1,5 +1,6 @@
 #include "engine.h"
 #include "STL_utils.cpp"
+#include "constants.h"
 
 #ifdef __linux__ 
     //linux code goes here
@@ -32,6 +33,18 @@ Engine::~Engine(){
     SDL_Quit();
 }
 
+void debugObject2(std::vector<Object2>o){
+    for(auto& i:o){
+        for(auto& v:i.getVertices()){
+            if(v.size()==1)std::cout<<"POINT\n";
+            if(v.size()==2)std::cout<<"LINE\n";
+            if(v.size()==3)std::cout<<"TRIANGLE\n";
+            for(auto& x:v)std::cout<<x.x<<" , "<<x.y<<"\n";
+        }
+        std::cout<<"\n";
+    }
+}
+
 bool Engine::mainLoop(){
     bool run=true;
 
@@ -46,19 +59,42 @@ bool Engine::mainLoop(){
     /*
 
     */
-
-    Point2 a(-200,-200), b(200,-200), c(-200, 200), d(200,200);
-    a.color={255,0,255,255};
-    b.color={255,0,0,255};
-    c.color={0,0,255,255};
-    d.color={255,255,255};
-
-    Object2 square({{a,b,c}, {d,c,b}});
     Object2 axis({{U,D}, {R,L}});
-    std::vector<Object2>objects{square}, AXIS{axis};  
-    objects[0].setAxis({100,100});      
+    std::vector<Object2>AXIS{axis};      
 
-    
+    STLObject stl_cube, stl_o1;
+    stl_cube.read_file("stl_models/Artifact.stl");
+    stl_o1.read_file("stl_models/senor_bumbo_cactoni.stl");
+
+    Object3 cube(stl_cube.getTriangles());
+    Object3 senor(stl_o1.getTriangles());
+
+    for(auto& i:cube.getVertives()){
+        for(auto& j:i){
+            j.x-=20;
+            j.z+=50;
+            j.y-=20;
+        }
+    }
+
+    for(auto& i:senor.getVertives()){
+        for(auto& j:i){
+            j.x+=40;
+            j.z+=50;
+            j.y+=30;
+        }
+    }
+
+    for(auto& i:cube.getVertives()){
+        for(auto& j:i){
+            double foo=j.y;
+            j.x*=5;
+            j.z*=5;
+            j.y*=5;
+        }
+    }
+
+    Camera camera;
 
     while(run){
         int startLoop=SDL_GetTicks();
@@ -82,11 +118,19 @@ bool Engine::mainLoop(){
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
-        draw(transformToFitScreen(objects), DRAW_WIREFRAME_NORMAL, {255,200,100,255});
+        //draw(transformToFitScreen(objects), DRAW_NORMAL, {255,200,100,255});
+
+        std::vector<Object2>moai=transformToFitScreen(projection(camera,{cube}));
+
         draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {200,50,0,255});
-        
-        objects[0].rotate(0.02);
-        objects[0].scale(0.995);
+        draw(
+            moai,
+            DRAW_COLOR,
+            {69,0,200,255}
+        );
+
+        draw(transformToFitScreen(projection(camera, {senor})),DRAW_COLOR, {0,255,0,255});
+
 
         SDL_RenderPresent(renderer);
 
@@ -113,7 +157,7 @@ Point2 Engine::transformPoint(const Point2& p){
     return ret;
 }
 
-std::vector<Object2>Engine::transformToFitScreen(std::vector<Object2>& obj){
+std::vector<Object2>Engine::transformToFitScreen(std::vector<Object2> obj){
     std::vector<Object2>ret;
     for(auto& o:obj){
         std::vector<std::vector<Point2>>foo;
@@ -123,8 +167,6 @@ std::vector<Object2>Engine::transformToFitScreen(std::vector<Object2>& obj){
             foo.push_back(r);
         }
         ret.push_back(Object2(foo));
-        //ret.getVertices().push_back(std::vector<Point2>());
-        //for(auto i:o.getVertices())ret[ret.size()-1].push_back(transformPoint(i));
     }
 
     return ret;
@@ -165,10 +207,3 @@ void Engine::draw(std::vector<Object2> object, uint8_t mode, Color_RGBA color){
         }
     }
 }
-
-// void Engine::draw(std::vector<Object2> obj, Color_RGBA (*shader)(int i)){
-//     std::cout<<(int)shader(1).r<<" ";
-// }
-
-
-
