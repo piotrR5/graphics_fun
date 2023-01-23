@@ -5,10 +5,16 @@
 #ifndef MODEL3D
 #define MODEL3D
 
+/*
+    model3d files are meant to containt:
+        -Object3 implementation with coresponding transform functions (move, rotate, set position, scale)
+
+
+*/
+
 class Object3{
     std::vector<std::vector<Point3>>vertices;
     Point3 axis;
-    
 
 public:
     Object3();

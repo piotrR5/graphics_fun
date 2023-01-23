@@ -6,6 +6,10 @@
 #ifndef RASTERIZATION
 #define RASTERIZATION
 
+/*
+    this file contains low level functions to draw different entities
+*/
+
 void drawPoint(Point2 a, SDL_Renderer* renderer);
 
 void drawPoint(Point2 a, Color_RGBA color, SDL_Renderer* renderer);

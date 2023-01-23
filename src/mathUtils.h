@@ -6,6 +6,10 @@
 #define MATHUTILS
 using namespace std;
 
+/*
+    this file contains basic implementation of mathematical and utility entities on which other parts of the project depend on
+*/
+
 struct Color_RGBA{
     uint8_t r=0, g=0, b=0, a=255;
 };

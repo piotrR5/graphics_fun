@@ -5,6 +5,13 @@
 #ifndef MODEL2D
 #define MODEL2D
 
+/*
+    model3d files are meant to containt:
+        -Object3 implementation with coresponding transform functions (move, rotate, set position, scale)
+
+
+*/
+
 class Object2{
     std::vector<std::vector<Point2>>vertices;
     Vec2 axis;

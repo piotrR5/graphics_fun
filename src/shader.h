@@ -3,6 +3,10 @@
 #include <iostream>
 #include <ctime>
 
+/*
+    this file is meant to implement shader objects, might not work :D
+*/
+
 //TODO:
 /*
     linear interpolation shader
