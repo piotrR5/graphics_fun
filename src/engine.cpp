@@ -122,25 +122,15 @@ bool Engine::mainLoop(){
         */
     
 
-        //draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {50,50,50,255});
-        // // draw(
-        // //     transformToFitScreen(projection(camera,{cube})),
-        // //     DRAW_WIREFRAME_COLOR,
-        // //     {69,0,200,255}
-        // // );
+        draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {50,50,50,255});
 
-        // draw(transformToFitScreen(projection(camera, {senor})),DRAW_WIREFRAME_COLOR, {0,255,0,255});
-
-        // draw(transformToFitScreen(projection(camera, {axisX})), DRAW_COLOR, {0,0,255,255});
-        // draw(transformToFitScreen(projection(camera, {axisY})), DRAW_COLOR, {255,0,0,255});
-        // draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,255,0,255});
+        draw(transformToFitScreen(projection(camera, {axisX})), DRAW_COLOR, {0,0,255,255});
+        draw(transformToFitScreen(projection(camera, {axisY})), DRAW_COLOR, {255,0,0,255});
+        draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,255,0,255});
 
         draw(transformToFitScreen(projection(camera, {moai})), DRAW_WIREFRAME_COLOR, {0,255,0,255});
-        //moai.rotate_object_x(0.1);
-        moai.rotate_object_y(0.1);
-        //moai.rotate_object_z(0.1);
-        //moai.translate_object({1,0,0});
-        //moai.translate_object({0,0,5*sin(delete_this_double)});
+        moai.rotate_object_y(0.05);
+        moai.translate_object({cos(delete_this_double), sin(delete_this_double*10/7), 0});
 
         SDL_RenderPresent(renderer);
 
