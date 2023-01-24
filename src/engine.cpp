@@ -78,7 +78,10 @@ bool Engine::mainLoop(){
 
     Camera camera;
 
+    double delete_this_double=0;
+
     while(run){
+        delete_this_double+=0.01;
         int startLoop=SDL_GetTicks();
         SDL_RenderClear(renderer);
         /*
@@ -117,6 +120,9 @@ bool Engine::mainLoop(){
 
         draw(transformToFitScreen(projection(camera, {test_object3})), DRAW_WIREFRAME_COLOR, {0,255,0,255});
         //test_object3.translate_object({10*cos(SDL_GetTicks()),10*sin(SDL_GetTicks()),0});
+        //test_object3.scale_object(1.0001);
+        //test_object3.set_object_position({-sin(delete_this_double)*10,cos(delete_this_double)*10,-200});
+        
 
         SDL_RenderPresent(renderer);
 

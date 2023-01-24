@@ -27,6 +27,11 @@ public:
     void addVertices(std::vector<std::vector<Point3>>v);
     void setAxis(Vec3 a);
     void translate_object(Vec3 v);
+    void scale_object(double scale);
+    void set_object_position(Vec3 position);
+    void rotate_object_x(double angle);
+    void rotate_object_y(double angle);
+    void rotate_object_z(double angle);
     std::vector<std::vector<Point3>>& getVertices();
     Vec3& getAxis();
 };
@@ -35,9 +40,6 @@ Vec3 determineAxis(Object3 _object);
 
 //TODO:
     //rotating by 3 angles
-    //moving by Vec3
-    //setting the position using Vec3 (position of axis)
-    //scale by a double value
 
 #endif
 

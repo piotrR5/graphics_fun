@@ -59,6 +59,20 @@ void Object3::translate_object(Vec3 v){
     axis=add_vectors(axis,v);
 }
 
+void Object3::scale_object(double scale){
+    for(size_t i=0; i<vertices.size(); i++){
+        for(size_t j=0; j<vertices[i].size(); j++){
+            Vec3 axis_to_point_vector=subtract_vectors(vertices[i][j].makeVec3(),axis);
+            vertices[i][j]=add_vectors(axis,{axis_to_point_vector.x*scale,axis_to_point_vector.y*scale,axis_to_point_vector.z*scale});
+        }
+    }
+}   
+
+void Object3::set_object_position(Vec3 position){
+    Vec3 move_to_pos_vector=subtract_vectors(position,axis);
+    translate_object(move_to_pos_vector);
+}
+
 std::vector<std::vector<Point3>>& Object3::getVertices(){
     return vertices;
 }
