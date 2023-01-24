@@ -20,20 +20,16 @@ class Matrix4{
     vector<vector<double>> data;
 
     public:
-    
-    Matrix4(){
-        vector<double> data_row(4, 0);
-        for(int i=0; i<4; i++) data.push_back(data_row);
-    }
+    Matrix4();
+
+    vector<vector<double>> inverse_matrix4(vector<vector<double>> matrix);
 
     double& at(size_t row, char col);
-
-    vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2);
-
-    vector<vector<double>> multip_matrix_by_constant(vector<vector<double>> matrix, double constant);
-
-    vector<vector<double>> inverse_matrix(vector<vector<double>> matrix);
 };
+
+vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2);
+
+vector<vector<double>> multip_matrix_by_constant(vector<vector<double>> matrix, double constant);
 
 struct Vec4{
     double x=0, y=0, z=0, w=0;
@@ -100,7 +96,11 @@ struct Triangle2{
 };
 
 class Matrix3{
-    double data[3][3];
+    vector<vector<double>> data;
+
+    public:
+    Matrix3();
+    Matrix3(Vec3 v);
     double& at(std::size_t row, char col);
 };
 
@@ -113,6 +113,10 @@ vector<vector<double>> rx_elementary_rotation(double angle);
 vector<vector<double>> ry_elementary_rotation(double angle);
 
 vector<vector<double>> rz_elementary_rotation(double angle);
+
+vector<vector<double>> vector3_to_matrix(Vec3 v);
+
+Vec3 matrix_to_vector3(vector<vector<double>> matrix);
 
 #endif
 

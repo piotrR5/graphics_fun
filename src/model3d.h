@@ -25,6 +25,7 @@ public:
     Object3(std::vector<std::vector<Point3>>v, Vec3 a);
     Object3(Vec3 a);
     void addVertices(std::vector<std::vector<Point3>>v);
+    void addVertices(std::vector<std::vector<Vec3>>v);
     void setAxis(Vec3 a);
     void translate_object(Vec3 v);
     void scale_object(double scale);
