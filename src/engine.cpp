@@ -25,6 +25,16 @@ Engine::Engine(){
     SDL_RenderClear(renderer);
     SDL_RenderPresent(renderer);
 
+     
+    O=Point3(0,0,500);
+    X=Point3(50,0,500); Xa1=Point3(40,5,500); Xa2=Point3(40,-5,500); 
+    Y=Point3(0,50,500); Ya1=Point3(5,40,500); Ya2=Point3(-5,40,500);
+    Z=Point3(0,0,550); Za1=Point3(5,0,540); Za2=Point3(-5, 0, 540);
+
+    axisX=Object3({{O,X}, {X,Xa1}, {X,Xa2}}); 
+    axisY=Object3({{O,Y}, {Y,Ya1}, {Y,Ya2}});
+    axisZ=Object3({{O,Z}, {Z, Za1}, {Z,Za2}});
+
     mainLoop();
 }
 
@@ -61,30 +71,7 @@ bool Engine::mainLoop(){
     /*
 
     */
-         
 
-    STLObject stl_cube, stl_o1;
-    stl_cube.read_file("stl_models/Artifact.stl");
-    stl_o1.read_file("stl_models/senor_bumbo_cactoni.stl");
-
-    Object3 cube(stl_cube.getTriangles());
-    Object3 senor(stl_o1.getTriangles());
-
-    for(auto& i:cube.getVertives()){
-        for(auto& j:i){
-            j.x-=40;
-            j.z+=500;
-            j.y-=50;
-        }
-    }
-
-    for(auto& i:senor.getVertives()){
-        for(auto& j:i){
-            j.x+=40;
-            j.z+=500;
-            j.y+=30;
-        }
-    }
 
     Camera camera;
 
@@ -110,25 +97,20 @@ bool Engine::mainLoop(){
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
+    
 
+        draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {50,50,50,255});
+        // // draw(
+        // //     transformToFitScreen(projection(camera,{cube})),
+        // //     DRAW_WIREFRAME_COLOR,
+        // //     {69,0,200,255}
+        // // );
 
-        for(auto& i:senor.getVertives()){
-        for(auto& j:i){
-            j.x+=1;
-            //j.z+=0.5;
-            //j.y+=30;
-        }
-    }
+        // draw(transformToFitScreen(projection(camera, {senor})),DRAW_WIREFRAME_COLOR, {0,255,0,255});
 
-        draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {200,50,0,255});
-        draw(
-            transformToFitScreen(projection(camera,{cube})),
-            DRAW_COLOR,
-            {69,0,200,255}
-        );
-
-        draw(transformToFitScreen(projection(camera, {senor})),DRAW_WIREFRAME_COLOR, {0,255,0,255});
-
+        draw(transformToFitScreen(projection(camera, {axisX})), DRAW_COLOR, {255,0,0,255});
+        draw(transformToFitScreen(projection(camera, {axisY})), DRAW_COLOR, {0,255,0,255});
+        draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,0,255,255});
 
         SDL_RenderPresent(renderer);
 
@@ -145,29 +127,6 @@ bool Engine::mainLoop(){
     }
 
     return 0;
-}
-
-Point2 Engine::transformPoint(const Point2& p){
-    Point2 ret;
-    ret.x=(VIEW_WIDTH/2+p.x)*mx;
-    ret.y=(VIEW_HEIGHT/2-p.y)*my;
-    ret.color=p.color;
-    return ret;
-}
-
-std::vector<Object2>Engine::transformToFitScreen(std::vector<Object2> obj){
-    std::vector<Object2>ret;
-    for(auto& o:obj){
-        std::vector<std::vector<Point2>>foo;
-        for(auto& i:o.getVertices()){
-            std::vector<Point2>r;
-            for(auto& v:i)r.push_back(transformPoint(v));
-            foo.push_back(r);
-        }
-        ret.push_back(Object2(foo));
-    }
-
-    return ret;
 }
 
 void Engine::draw(std::vector<Object2> object, uint8_t mode, Color_RGBA color){

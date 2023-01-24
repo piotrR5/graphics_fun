@@ -303,3 +303,26 @@ void drawTriangleMesh(Point2 a, Point2 b, Point2 c, Color_RGBA color, SDL_Render
     drawLine(b,c,color,renderer);
     drawLine(c,a,color,renderer);
 }
+
+std::vector<Object2>transformToFitScreen(std::vector<Object2> obj){
+    std::vector<Object2>ret;
+    for(auto& o:obj){
+        std::vector<std::vector<Point2>>foo;
+        for(auto& i:o.getVertices()){
+            std::vector<Point2>r;
+            for(auto& v:i)r.push_back(transformPoint(v));
+            foo.push_back(r);
+        }
+        ret.push_back(Object2(foo));
+    }
+
+    return ret;
+}
+
+Point2 transformPoint(const Point2& p){
+    Point2 ret;
+    ret.x=(VIEW_WIDTH/2+p.x)*mx;
+    ret.y=(VIEW_HEIGHT/2-p.y)*my;
+    ret.color=p.color;
+    return ret;
+}

@@ -10,6 +10,7 @@
 #define DRAW_NORMAL 3
 #define DRAW_COLOR 4
 
-
+#define mx (double)SCREEN_WIDTH/VIEW_WIDTH
+#define my (double)SCREEN_HEIGHT/VIEW_HEIGHT
 
 #define INT_BIG 20000000

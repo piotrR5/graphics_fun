@@ -9,10 +9,6 @@
 
 #include "constants.h"
 
-
-
-
-
 /*
     engine.h file is meant to contain implementation of drawing functions (functions to diffrently draw triangles, lines, objects etc)
     it also contains the main program loop and is the life place of SDL_Window
@@ -26,17 +22,13 @@ public:
     int fps=60;
     int desiredDT=1000/fps;
 
-    double mx=(double)SCREEN_WIDTH/VIEW_WIDTH;
-    double my=(double)SCREEN_HEIGHT/VIEW_HEIGHT;
-
-
-    /*
-        two functions that follow are meant to transform objects from 2D plane onto the screen, they have different coordinate systems
-    */
-    Point2 transformPoint(const Point2& p);
-    std::vector<Object2>transformToFitScreen(std::vector<Object2> obj);
-
-
+    Point3 
+        O, 
+        X, Xa1, Xa2, 
+        Y, Ya1, Ya2,
+        Z, Za1, Za2;
+    
+    Object3 axisX, axisY, axisZ;
 
     /*
         draw function invokes rasterization functions to draw every 2D object
