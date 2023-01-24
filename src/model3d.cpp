@@ -43,7 +43,17 @@ Vec3 determineAxis(Object3 _object){
 }
 
 void Object3::addVertices(std::vector<std::vector<Point3>>v){
-    for(auto o:v)vertices.push_back(o);
+    for(auto& o:v)vertices.push_back(o);
+}
+
+void Object3::addVertices(std::vector<std::vector<Vec3>>v){
+    for(auto& o:v){
+        std::vector<Point3> temp;
+        for(auto& i:o){
+            temp.push_back(Point3(i));
+        } 
+        vertices.push_back(temp);
+    }
 }
 
 void Object3::setAxis(Vec3 a){
@@ -71,6 +81,30 @@ void Object3::scale_object(double scale){
 void Object3::set_object_position(Vec3 position){
     Vec3 move_to_pos_vector=subtract_vectors(position,axis);
     translate_object(move_to_pos_vector);
+}
+
+void Object3::rotate_object_x(double angle){
+    for(auto& i:vertices){
+        for(auto& j:i){
+            j=add_vectors(axis,matrix_to_vector3(multip_matrix(rx_elementary_rotation(angle),vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
+        }
+    }
+}
+
+void Object3::rotate_object_y(double angle){
+    for(auto& i:vertices){
+        for(auto& j:i){
+            j=add_vectors(axis,matrix_to_vector3(multip_matrix(ry_elementary_rotation(angle),vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
+        }
+    }
+}
+
+void Object3::rotate_object_z(double angle){
+    for(auto& i:vertices){
+        for(auto& j:i){
+            j=add_vectors(axis,matrix_to_vector3(multip_matrix(rz_elementary_rotation(angle),vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
+        }
+    }
 }
 
 std::vector<std::vector<Point3>>& Object3::getVertices(){

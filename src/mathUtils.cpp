@@ -8,11 +8,29 @@ Vec3 subtract_vectors(Vec3 v1, Vec3 v2){
     return {v1.x-v2.x, v1.y-v2.y, v1.z-v2.z};
 }
 
+Matrix4::Matrix4(){
+    vector<double> data_row(4, 0);
+    for(int i=0; i<4; i++) data.push_back(data_row);
+}
+
+Matrix3::Matrix3(){
+    vector<double> data_row(3, 0);
+    for(int i=0; i<3; i++) data.push_back(data_row);
+}
+
+Matrix3::Matrix3(Vec3 v){
+    data={{v.x},{v.y},{v.z}};
+}
+
+vector<vector<double>> vector3_to_matrix(Vec3 v){
+    return {{v.x},{v.y},{v.z}};
+}
+
 double& Matrix4::at(size_t row, char col){
     return data[row][(col=='w' ? 3 : col-'x')];
 }
 
-vector<vector<double>> Matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
+vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
     vector<vector<double>> return_matrix;
     for(size_t i=0; i<matrix_1.size(); i++){
         vector<double> matrix_row;
@@ -41,7 +59,7 @@ vector<vector<double>> multip_matrix_by_constant(vector<vector<double>> matrix, 
     return return_matrix;
 }
 
-vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix
+vector<vector<double>> Matrix4::inverse_matrix4(vector<vector<double>> matrix){ //https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix
     vector<vector<double>> return_matrix;
     double inv[16],invOut[16] , det;
     int i,p=0;
@@ -297,6 +315,10 @@ double& Matrix3::at(size_t row, char col){
     return data[row][col-'x'];
 }
 
+Vec3 matrix_to_vector3(vector<vector<double>> matrix){
+    return {matrix[0][0],matrix[1][0],matrix[2][0]};
+}
+
 vector<vector<double>> rx_elementary_rotation(double angle){
     return {{1,0,0},{0,cos(angle),-sin(angle)},{0,sin(angle),cos(angle)}};
 }
@@ -308,3 +330,4 @@ vector<vector<double>> ry_elementary_rotation(double angle){
 vector<vector<double>> rz_elementary_rotation(double angle){
     return {{cos(angle),-sin(angle),0},{sin(angle),cos(angle),0},{0,0,1}};
 }
+
