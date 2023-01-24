@@ -59,7 +59,7 @@ void Object3::translate_object(Vec3 v){
     axis=add_vectors(axis,v);
 }
 
-std::vector<std::vector<Point3>>& Object3::getVertives(){
+std::vector<std::vector<Point3>>& Object3::getVertices(){
     return vertices;
 }
 

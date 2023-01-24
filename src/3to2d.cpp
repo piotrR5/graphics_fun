@@ -23,7 +23,7 @@ vector<Object2> projection(Camera camera, std::vector<Object3> objects){
     for(auto& object : objects){
         Object2 o_temp;
         bool toRender=true;
-        for(auto& vertexVectors:object.getVertives()){
+        for(auto& vertexVectors:object.getVertices()){
             std::vector<Point2>vec2_temp;
             for(auto& v:vertexVectors)  if(distance_from_camera(camera.get_camera_origin(), v.makeVec3())<5 || v.z-camera.get_camera_origin().z <0){
                                             toRender=false;

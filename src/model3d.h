@@ -27,7 +27,7 @@ public:
     void addVertices(std::vector<std::vector<Point3>>v);
     void setAxis(Vec3 a);
     void translate_object(Vec3 v);
-    std::vector<std::vector<Point3>>& getVertives();
+    std::vector<std::vector<Point3>>& getVertices();
     Vec3& getAxis();
 };
 
