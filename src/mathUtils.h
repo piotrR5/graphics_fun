@@ -108,6 +108,12 @@ Vec3 add_vectors(Vec3 v1, Vec3 v2);
 
 Vec3 subtract_vectors(Vec3 v1, Vec3 v2);
 
+vector<vector<double>> rx_elementary_rotation(double angle);
+
+vector<vector<double>> ry_elementary_rotation(double angle);
+
+vector<vector<double>> rz_elementary_rotation(double angle);
+
 #endif
 
 
