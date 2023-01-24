@@ -29,9 +29,9 @@ public:
     void translate_object(Vec3 v);
     void scale_object(double scale);
     void set_object_position(Vec3 position);
-    void rotate_object_x(double angle);
-    void rotate_object_y(double angle);
-    void rotate_object_z(double angle);
+    //void rotate_object_x(double angle);
+    //void rotate_object_y(double angle);
+    //void rotate_object_z(double angle);
     std::vector<std::vector<Point3>>& getVertices();
     Vec3& getAxis();
 };
