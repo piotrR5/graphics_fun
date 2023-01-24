@@ -119,8 +119,8 @@ bool Engine::mainLoop(){
         draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,255,0,255});
 
         draw(transformToFitScreen(projection(camera, {test_object3})), DRAW_WIREFRAME_COLOR, {0,255,0,255});
-        //test_object3.translate_object({10*cos(SDL_GetTicks()),10*sin(SDL_GetTicks()),0});
-        //test_object3.scale_object(1.0001);
+        test_object3.translate_object({10*cos(SDL_GetTicks()),10*sin(SDL_GetTicks()),0});
+        //test_object3.scale_object(1.001);
         //test_object3.set_object_position({-sin(delete_this_double)*10,cos(delete_this_double)*10,-200});
         
 

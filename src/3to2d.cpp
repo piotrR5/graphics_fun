@@ -1,6 +1,6 @@
 #include "3to2d.h"
 
-Camera::Camera():camera_origin({0,0,-500}),projection_plane({0,0,1,-300}){
+Camera::Camera():camera_origin({0,0,-500}),projection_plane({0,0,1,-500}){
 }
 
 Camera::Camera(Vec3 o, Vec4 p){
@@ -53,15 +53,16 @@ Vec2 find_point_coordinates_on_plane(Camera camera, Vec3 p){
 
 Vec3 intersection_point(Camera _camera, Vec3 vertex){
     Vec3 return_point;
-    Vec3 point_camera_vector{
-        _camera.get_camera_origin().x-vertex.x,
-        _camera.get_camera_origin().y-vertex.y,
-        _camera.get_camera_origin().z-vertex.z
-    };
     Vec4 plane=_camera.get_projection_plane();
+    Vec3 origin=_camera.get_camera_origin();
+    Vec3 point_camera_vector{
+        origin.x-vertex.x,
+        origin.y-vertex.y,
+        origin.z-vertex.z
+    };
+    
 
-    double t=-(plane.x*vertex.x+plane.y*vertex.y+plane.z*vertex.z+plane.w)
-    /(plane.x*point_camera_vector.x+plane.y*point_camera_vector.y+plane.z*point_camera_vector.z);
+    double t=-(plane.x*(vertex.x - origin.x) + plane.y*(vertex.y - origin.y) + plane.z*(vertex.z - origin.z) + plane.w)/(point_camera_vector.x*plane.x + point_camera_vector.y*plane.y + point_camera_vector.z*plane.z);
 
     return_point={
         vertex.x+t*point_camera_vector.x,
