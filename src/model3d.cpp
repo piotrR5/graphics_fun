@@ -35,7 +35,7 @@ Vec3 determineAxis(Object3 _object){
     int points_count=0;
     for(auto& i:_object.getVertices()){
         for(auto& j:i){
-            return_axis=add_vectors(return_axis,j);
+            return_axis=add_vectors(return_axis,j.makeVec3());
             points_count++;
         }
     }
