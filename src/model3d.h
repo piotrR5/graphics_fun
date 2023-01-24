@@ -16,19 +16,22 @@
 
 class Object3{
     std::vector<std::vector<Point3>>vertices;
-    Point3 axis;
+    Vec3 axis;
 
 public:
     Object3();
     Object3(std::vector<std::vector<Point3>>v);
     Object3(std::vector<std::vector<Vec3>>v);
-    Object3(std::vector<std::vector<Point3>>v, Point3 a);
-    Object3(Point3 a);
+    Object3(std::vector<std::vector<Point3>>v, Vec3 a);
+    Object3(Vec3 a);
     void addVertices(std::vector<std::vector<Point3>>v);
-    void setAxis(Point3 a);
+    void setAxis(Vec3 a);
+    void translate_object(Vec3 v);
     std::vector<std::vector<Point3>>& getVertives();
-    Point3& getAxis();
+    Vec3& getAxis();
 };
+
+Vec3 determineAxis(Object3 _object);
 
 //TODO:
     //rotating by 3 angles

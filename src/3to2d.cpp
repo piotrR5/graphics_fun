@@ -1,6 +1,6 @@
 #include "3to2d.h"
 
-Camera::Camera():camera_origin({0,0,0}),projection_plane({0,0,1,-500}){
+Camera::Camera():camera_origin({0,0,-500}),projection_plane({0,0,1,-300}){
 }
 
 Camera::Camera(Vec3 o, Vec4 p){

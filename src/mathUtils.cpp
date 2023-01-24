@@ -1,10 +1,44 @@
 #include "mathUtils.h"
 
-void Vec4::add(Vec4 v){
-    x+=v.x;
-    y+=v.y;
-    z+=v.z;
-    w+=v.w;
+Vec3 add_vectors(Vec3 v1, Vec3 v2){
+    return {v1.x+v2.x, v1.y+v2.y, v1.z+v2.z};
+}
+
+Vec3 subtract_vectors(Vec3 v1, Vec3 v2){
+    return {v1.x-v2.x, v1.y-v2.y, v1.z-v2.z};
+}
+
+double& Matrix4::at(size_t row, char col){
+    return data[row][(col=='w' ? 3 : col-'x')];
+}
+
+vector<vector<double>> Matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
+    vector<vector<double>> return_matrix;
+    for(size_t i=0; i<matrix_1.size(); i++){
+        vector<double> matrix_row;
+        double sum=0;
+        for(size_t j=0; j<matrix_1.size(); j++){
+            for(size_t k=0; k<matrix_1.size(); k++){
+                sum+=matrix_1[i][k]*matrix_2[k][j];
+            }
+            matrix_row.push_back(sum);
+            sum=0;
+        }
+        return_matrix.push_back(matrix_row);
+    }
+    return return_matrix;
+}
+
+vector<vector<double>> multip_matrix_by_constant(vector<vector<double>> matrix, double constant){
+    vector<vector<double>> return_matrix;
+    for(size_t i=0; i<matrix.size(); i++){
+        vector<double> matrix_row;
+        for(size_t j=0; j<matrix[0].size(); j++){
+            matrix_row.push_back(matrix[i][j]*constant);
+        }
+        return_matrix.push_back(matrix_row);
+    }
+    return return_matrix;
 }
 
 vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://stackoverflow.com/questions/1148309/inverting-a-4x4-matrix
@@ -146,36 +180,14 @@ vector<vector<double>> inverse_matrix(vector<vector<double>> matrix){ //https://
         }
     }
 
-    /*
-        CODE BY Jakub Wilkosz
-    */
-
-    // vector<double> matrix_row;
-    // matrix_row.push_back(invOut[0]);
-    // matrix_row.push_back(invOut[1]);
-    // matrix_row.push_back(invOut[2]);
-    // matrix_row.push_back(invOut[3]);
-    // return_matrix.push_back(matrix_row);
-    // matrix_row.erase(matrix_row.begin(), matrix_row.end());
-    // matrix_row.push_back(invOut[4]);
-    // matrix_row.push_back(invOut[5]);
-    // matrix_row.push_back(invOut[6]);
-    // matrix_row.push_back(invOut[7]);
-    // return_matrix.push_back(matrix_row);
-    // matrix_row.erase(matrix_row.begin(), matrix_row.end());
-    // matrix_row.push_back(invOut[8]);
-    // matrix_row.push_back(invOut[9]);
-    // matrix_row.push_back(invOut[10]);
-    // matrix_row.push_back(invOut[11]);
-    // return_matrix.push_back(matrix_row);
-    // matrix_row.erase(matrix_row.begin(), matrix_row.end());
-    // matrix_row.push_back(invOut[12]);
-    // matrix_row.push_back(invOut[13]);
-    // matrix_row.push_back(invOut[14]);
-    // matrix_row.push_back(invOut[15]);
-    // return_matrix.push_back(matrix_row);
-
     return return_matrix;
+}
+
+void Vec4::add(Vec4 v){
+    x+=v.x;
+    y+=v.y;
+    z+=v.z;
+    w+=v.w;
 }
 
 Point3::Point3(double x, double y, double z){
@@ -183,6 +195,13 @@ Point3::Point3(double x, double y, double z){
     this->y=y;
     this->z=z;
 }
+
+Point3::Point3(Vec3 v){
+    x=v.x;
+    y=v.y;
+    z=v.z;
+}
+
 
 Point3::Point3(){
     x=0;
@@ -227,31 +246,6 @@ void Vec3::add(Vec3 v){
     y+=v.y;
     z+=v.z;
 }
-
-double& Matrix4::at(size_t row, char col){
-    return data[row][(col=='w' ? 3 : col-'x')];
-}
-
-vector<vector<double>> Matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
-    vector<vector<double>> return_matrix;
-    for(size_t i=0; i<matrix_1.size(); i++){
-        vector<double> matrix_row;
-        double sum=0;
-        for(size_t j=0; j<matrix_1.size(); j++){
-            for(size_t k=0; k<matrix_1.size(); k++){
-                sum+=matrix_1[i][k]*matrix_2[k][j];
-            }
-            matrix_row.push_back(sum);
-            sum=0;
-        }
-        return_matrix.push_back(matrix_row);
-    }
-    return return_matrix;
-}
-
-
-
-
 
 Point2::Point2(double x, double y){
     this->x=x;

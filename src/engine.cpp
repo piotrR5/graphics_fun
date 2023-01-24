@@ -71,7 +71,10 @@ bool Engine::mainLoop(){
     /*
 
     */
-
+    STLObject test_object;
+    test_object.read_file("stl_models/Artifact.stl");
+    Object3 test_object3(test_object.getTriangles());
+    test_object3.translate_object({0,0,300});
 
     Camera camera;
 
@@ -108,9 +111,12 @@ bool Engine::mainLoop(){
 
         // draw(transformToFitScreen(projection(camera, {senor})),DRAW_WIREFRAME_COLOR, {0,255,0,255});
 
-        draw(transformToFitScreen(projection(camera, {axisX})), DRAW_COLOR, {255,0,0,255});
-        draw(transformToFitScreen(projection(camera, {axisY})), DRAW_COLOR, {0,255,0,255});
-        draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,0,255,255});
+        draw(transformToFitScreen(projection(camera, {axisX})), DRAW_COLOR, {0,0,255,255});
+        draw(transformToFitScreen(projection(camera, {axisY})), DRAW_COLOR, {255,0,0,255});
+        draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,255,0,255});
+
+        draw(transformToFitScreen(projection(camera, {test_object3})), DRAW_WIREFRAME_COLOR, {0,255,0,255});
+        //test_object3.translate_object({10*cos(SDL_GetTicks()),10*sin(SDL_GetTicks()),0});
 
         SDL_RenderPresent(renderer);
 

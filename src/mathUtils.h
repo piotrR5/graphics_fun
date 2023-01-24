@@ -16,6 +16,24 @@ struct Color_RGBA{
     uint8_t r=0, g=0, b=0, a=255;
 };
 
+class Matrix4{
+    vector<vector<double>> data;
+
+    public:
+    
+    Matrix4(){
+        vector<double> data_row(4, 0);
+        for(int i=0; i<4; i++) data.push_back(data_row);
+    }
+
+    double& at(size_t row, char col);
+
+    vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2);
+
+    vector<vector<double>> multip_matrix_by_constant(vector<vector<double>> matrix, double constant);
+
+    vector<vector<double>> inverse_matrix(vector<vector<double>> matrix);
+};
 
 struct Vec4{
     double x=0, y=0, z=0, w=0;
@@ -41,6 +59,7 @@ struct Point3{
     Vec3 makeVec3();
 
     Point3(double x, double y, double z);
+    Point3(Vec3 v);
     Point3();
 };
 
@@ -55,25 +74,6 @@ struct Triangle3{
     Triangle3();
     Triangle3(Point3 a, Point3 b, Point3 c);
 };
-
-class Matrix4{
-    vector<vector<double>> data;
-
-    public:
-    
-    Matrix4(){
-        vector<double> data_row(4, 0);
-        for(int i=0; i<4; i++) data.push_back(data_row);
-    }
-
-    double& at(size_t row, char col);
-
-    vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2);
-
-    vector<vector<double>> inverse_matrix(vector<vector<double>> matrix);
-};
-
-
 
 struct Point2{
     double x=0,y=0;
@@ -104,15 +104,9 @@ class Matrix3{
     double& at(std::size_t row, char col);
 };
 
+Vec3 add_vectors(Vec3 v1, Vec3 v2);
 
-
-
-
-
-
-
-
-
+Vec3 subtract_vectors(Vec3 v1, Vec3 v2);
 
 #endif
 
