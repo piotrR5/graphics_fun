@@ -94,6 +94,15 @@ bool Engine::mainLoop(){
                 run = false;
                 std::cout << "Quitting!\n";
                 break;
+            
+            break;
+            case SDL_KEYDOWN:
+                printf( "Key press detected\n" );
+                break;
+
+            case SDL_KEYUP:
+                printf( "Key release detected\n" );
+                break;
             }
         }
         /*
