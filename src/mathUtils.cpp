@@ -14,11 +14,11 @@ double& Matrix4::at(size_t row, char col){
 
 vector<vector<double>> Matrix4::multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2){
     vector<vector<double>> return_matrix;
-    for(int i=0; i<matrix_1.size(); i++){
+    for(size_t i=0; i<matrix_1.size(); i++){
         vector<double> matrix_row;
         double sum=0;
-        for(int j=0; j<matrix_2[i].size(); j++){
-            for(int k=0; k<matrix_1.size(); k++){
+        for(size_t j=0; j<matrix_2[i].size(); j++){
+            for(size_t k=0; k<matrix_1.size(); k++){
                 sum+=matrix_1[i][k]*matrix_2[k][j];
             }
             matrix_row.push_back(sum);
@@ -298,13 +298,13 @@ double& Matrix3::at(size_t row, char col){
 }
 
 vector<vector<double>> rx_elementary_rotation(double angle){
-    return {{1,0,0},{0,cos(angle),-sin(angle)},{0,sin(angle),cos(angle)}}
+    return {{1,0,0},{0,cos(angle),-sin(angle)},{0,sin(angle),cos(angle)}};
 }
 
 vector<vector<double>> ry_elementary_rotation(double angle){
-    return {{cos(angle),0,sin(angle)},{0,1,0},{-sin(angle),0,cos(angle)}}
+    return {{cos(angle),0,sin(angle)},{0,1,0},{-sin(angle),0,cos(angle)}};
 }
 
 vector<vector<double>> rz_elementary_rotation(double angle){
-    return {{cos(angle),-sin(angle),0},{sin(angle),cos(angle),0},{0,0,1}}
+    return {{cos(angle),-sin(angle),0},{sin(angle),cos(angle),0},{0,0,1}};
 }
