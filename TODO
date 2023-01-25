@@ -1,42 +1,40 @@
 TODO:
 
 3D math model:
-    3D coordinates
+    3D coordinates  [OK]
     3D transformations:
         rotation
-        movement
-        scaling
-    triangles, lines, points and camera in 3D space
-    3D axis
-    4x4 matrix
-    4 vector
+        movement    [OK]
+        scaling [OK]
+    triangles, lines, points and camera in 3D space [OK]
+    4x4 matrix  [OK]
+    4 vector    [OK]
 
 3D to 2D algos:
-    creating a perspective view
-    laying 3D coordinates onto 2D coordinates while keeping the distance from the camera
+    creating a perspective view [OK]
+    laying 3D coordinates onto 2D coordinates while keeping the distance from the camera    [OK]
 
 2D math model:
-    3D coordinates, triangles, lines, points
-    3x3 matrix
-    3 vector
-    2D axis
-    2D tranformations:
-        rotation
-        movement
-        scaling
+    3D coordinates, triangles, lines, points    [OK]
+    3x3 matrix  [OK]
+    3 vector    [OK]
+    2D tranformations:  [OK]
+        rotation    [OK]
+        movement    [OK]
+        scaling [OK]
 
 rasterization:
-    rasterization of meshes
-    rasterization of color filled triangles
-    scaling to fit screen
-    displaying
+    rasterization of meshes [OK]
+    rasterization of color filled triangles [OK]
+    scaling to fit screen   [OK]
+    displaying  [OK]
 
 utils:
-    moving the camera
+    moving the camera   [OK]
     rotating the camera
     zooming the camera
     spawning basic objects in front of camera
-    fps enforcer
+    fps enforcer    [OK]
     logging
 
 
