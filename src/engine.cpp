@@ -72,7 +72,7 @@ bool Engine::mainLoop(){
 
     */
     STLObject test_object1;
-    test_object1.read_file("stl_models/SpinMe.stl");
+    test_object1.read_file("stl_models/maxwell.stl");
     Object3 moai(test_object1.getTriangles());
     moai.set_object_position({0,0,100});
     moai.scale_object(2);
@@ -159,8 +159,9 @@ bool Engine::mainLoop(){
                 }
             }
         }
-        draw(moai_tranformed, DRAW_WIREFRAME_NORMAL, {0,255,0,255});
-        // moai.rotate_object_y(0.05);
+        draw(moai_tranformed, DRAW_WIREFRAME_COLOR, {0,255,0,255});
+        moai.rotate_object_y(0.05);
+        moai.translate_object({sin(delete_this_double*10)*5, cos(delete_this_double*50)*5, 0});
         // moai.translate_object({cos(delete_this_double), sin(delete_this_double*10/7), 0});
 
         SDL_RenderPresent(renderer);
