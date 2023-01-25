@@ -22,13 +22,7 @@ public:
     int fps=60;
     int desiredDT=1000/fps;
 
-    Point3 
-        O, 
-        X, Xa1, Xa2, 
-        Y, Ya1, Ya2,
-        Z, Za1, Za2;
     
-    Object3 axisX, axisY, axisZ;
 
     /*
         draw function invokes rasterization functions to draw every 2D object

@@ -13,4 +13,6 @@
 #define mx (double)SCREEN_WIDTH/VIEW_WIDTH
 #define my (double)SCREEN_HEIGHT/VIEW_HEIGHT
 
+#define CAMERA_SPEED 20
+
 #define INT_BIG 20000000

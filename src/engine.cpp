@@ -25,17 +25,10 @@ Engine::Engine(){
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
-    SDL_RenderPresent(renderer);
+    SDL_RenderPresent(renderer);    
 
      
-    O=Point3(0,0,500);
-    X=Point3(50,0,500); Xa1=Point3(40,5,500); Xa2=Point3(40,-5,500); 
-    Y=Point3(0,50,500); Ya1=Point3(5,40,500); Ya2=Point3(-5,40,500);
-    Z=Point3(0,0,550); Za1=Point3(5,0,540); Za2=Point3(-5, 0, 540);
-
-    axisX=Object3({{O,X}, {X,Xa1}, {X,Xa2}}); 
-    axisY=Object3({{O,Y}, {Y,Ya1}, {Y,Ya2}});
-    axisZ=Object3({{O,Z}, {Z, Za1}, {Z,Za2}});
+    
 
     mainLoop();
 }
@@ -59,6 +52,8 @@ void debugObject2(std::vector<Object2>o){
 
 bool Engine::mainLoop(){
 
+    
+
     srand(time(NULL));
 
     bool run=true;
@@ -79,7 +74,7 @@ bool Engine::mainLoop(){
     STLObject test_object1;
     test_object1.read_file("stl_models/SpinMe.stl");
     Object3 moai(test_object1.getTriangles());
-    moai.set_object_position({0,0,0});
+    moai.set_object_position({0,0,100});
     moai.scale_object(2);
     moai.rotate_object_x(3.14/2);
     moai.rotate_object_y(3.14);
@@ -110,6 +105,27 @@ bool Engine::mainLoop(){
             
             break;
             case SDL_KEYDOWN:
+                switch(event.key.keysym.sym){
+                    case SDLK_w:
+                        camera.moveCamera({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z});
+                    break;
+                    case SDLK_a:
+                        camera.moveCamera(matrix_to_vector3(multip_matrix(ry_elementary_rotation(-3.14/2),vector3_to_matrix({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z}))));
+                    break;
+                    case SDLK_s:
+                        camera.moveCamera({-CAMERA_SPEED*camera.get_projection_plane().x, -CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*-camera.get_projection_plane().z});
+                        printf( "S pressed\n");
+                    break;
+                    case SDLK_d:
+                        camera.moveCamera(matrix_to_vector3(multip_matrix(ry_elementary_rotation(3.14/2),vector3_to_matrix({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z}))));
+                    break;
+                    case SDLK_SPACE:
+                        camera.moveCamera({0,CAMERA_SPEED,0});
+                    break;
+                    case SDLK_LSHIFT:
+                        camera.moveCamera({0,-CAMERA_SPEED,0});
+                    break;
+                }
                 printf( "Key press detected\n" );
                 break;
 
@@ -129,9 +145,9 @@ bool Engine::mainLoop(){
 
         draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {50,50,50,255});
 
-        draw(transformToFitScreen(projection(camera, {axisX})), DRAW_COLOR, {0,0,255,255});
-        draw(transformToFitScreen(projection(camera, {axisY})), DRAW_COLOR, {255,0,0,255});
-        draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,255,0,255});
+        draw(transformToFitScreen(projection(camera, {camera.axisX})), DRAW_COLOR, {0,0,255,255});
+        draw(transformToFitScreen(projection(camera, {camera.axisY})), DRAW_COLOR, {255,0,0,255});
+        draw(transformToFitScreen(projection(camera, {camera.axisZ})), DRAW_COLOR, {0,255,0,255});
 
         std::vector<Object2>moai_tranformed=transformToFitScreen(projection(camera, {moai}));
         for(auto& i:moai_tranformed){
@@ -144,8 +160,8 @@ bool Engine::mainLoop(){
             }
         }
         draw(moai_tranformed, DRAW_NORMAL, {0,255,0,255});
-        moai.rotate_object_y(0.05);
-        moai.translate_object({cos(delete_this_double), sin(delete_this_double*10/7), 0});
+        // moai.rotate_object_y(0.05);
+        // moai.translate_object({cos(delete_this_double), sin(delete_this_double*10/7), 0});
 
         SDL_RenderPresent(renderer);
 

@@ -13,17 +13,34 @@
 */
 
 class Camera{
+
+    
     
     Vec3 camera_origin;
     Vec4 projection_plane;
 
     public:
+
+    Point3 
+        O, 
+        X, Xa1, Xa2, 
+        Y, Ya1, Ya2,
+        Z, Za1, Za2;
+    
+    Object3 axisX, axisY, axisZ;
+
     Camera();
     Camera(Vec3, Vec4);
 
     Vec3 get_camera_origin();
 
     Vec4 get_projection_plane();
+
+    void setCameraOrigin(Vec3 o);
+
+    void setProjectionPlane(Vec4 p);
+
+    void moveCamera(Vec3 v);
 };
 
 /*

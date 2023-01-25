@@ -1,12 +1,33 @@
 #include "3to2d.h"
 
 Camera::Camera():camera_origin({0,0,-500}),projection_plane({0,0,1,-500}){
+    O=Point3(0,0,500);
+    X=Point3(50,0,500); Xa1=Point3(40,5,500); Xa2=Point3(40,-5,500); 
+    Y=Point3(0,50,500); Ya1=Point3(5,40,500); Ya2=Point3(-5,40,500);
+    Z=Point3(0,0,550); Za1=Point3(5,0,540); Za2=Point3(-5, 0, 540);
+
+    axisX=Object3({{O,X}, {X,Xa1}, {X,Xa2}}); 
+    axisY=Object3({{O,Y}, {Y,Ya1}, {Y,Ya2}});
+    axisZ=Object3({{O,Z}, {Z, Za1}, {Z,Za2}});
 }
 
 Camera::Camera(Vec3 o, Vec4 p){
     camera_origin=o;
     projection_plane=p;
+
+    O=Point3(0,0,0);
+    X=Point3(50,0,500); Xa1=Point3(40,5,500); Xa2=Point3(40,-5,500); 
+    Y=Point3(0,50,500); Ya1=Point3(5,40,500); Ya2=Point3(-5,40,500);
+    Z=Point3(0,0,550); Za1=Point3(5,0,540); Za2=Point3(-5, 0, 540);
+
+    axisX=Object3({{O,X}, {X,Xa1}, {X,Xa2}}); 
+    axisY=Object3({{O,Y}, {Y,Ya1}, {Y,Ya2}});
+    axisZ=Object3({{O,Z}, {Z, Za1}, {Z,Za2}});
 }
+
+/*
+    
+*/
 
 Vec3 Camera::get_camera_origin(){
     return camera_origin;
@@ -14,6 +35,20 @@ Vec3 Camera::get_camera_origin(){
 
 Vec4 Camera::get_projection_plane(){
     return projection_plane;
+}
+
+void Camera::setCameraOrigin(Vec3 o){
+    camera_origin=o;
+}
+void Camera::setProjectionPlane(Vec4 p){
+    projection_plane=p;
+}
+void Camera::moveCamera(Vec3 v){
+    camera_origin=add_vectors(camera_origin, v);
+    axisX.translate_object(v);
+    axisY.translate_object(v);
+    axisZ.translate_object(v);
+
 }
 
 vector<Object2> projection(Camera camera, std::vector<Object3> objects){
@@ -48,7 +83,7 @@ vector<Object2> projection(Camera camera, std::vector<Object3> objects){
 }
 
 Vec2 find_point_coordinates_on_plane(Camera camera, Vec3 p){
-    return {p.x*3, p.y*3};
+    return {(p.x-camera.get_camera_origin().x)*3, (p.y-camera.get_camera_origin().y)*3};
 }
 
 Vec3 intersection_point(Camera _camera, Vec3 vertex){
