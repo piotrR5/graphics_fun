@@ -2,6 +2,8 @@
 #include "STL_utils.cpp"
 #include "constants.h"
 
+#include <ctime>
+
 #ifdef __linux__ 
     //linux code goes here
     void clearConsole(){
@@ -56,6 +58,9 @@ void debugObject2(std::vector<Object2>o){
 }
 
 bool Engine::mainLoop(){
+
+    srand(time(NULL));
+
     bool run=true;
 
     /*
@@ -72,7 +77,7 @@ bool Engine::mainLoop(){
 
     */
     STLObject test_object1;
-    test_object1.read_file("stl_models/lantern.stl");
+    test_object1.read_file("stl_models/SpinMe.stl");
     Object3 moai(test_object1.getTriangles());
     moai.set_object_position({0,0,0});
     moai.scale_object(2);
@@ -128,7 +133,17 @@ bool Engine::mainLoop(){
         draw(transformToFitScreen(projection(camera, {axisY})), DRAW_COLOR, {255,0,0,255});
         draw(transformToFitScreen(projection(camera, {axisZ})), DRAW_COLOR, {0,255,0,255});
 
-        draw(transformToFitScreen(projection(camera, {moai})), DRAW_WIREFRAME_COLOR, {0,255,0,255});
+        std::vector<Object2>moai_tranformed=transformToFitScreen(projection(camera, {moai}));
+        for(auto& i:moai_tranformed){
+            for(auto& j:i.getVertices()){
+                for(auto& k:j){
+                    k.color.r=rand()%256;
+                    k.color.g=rand()%256;
+                    k.color.b=rand()%256;
+                }
+            }
+        }
+        draw(moai_tranformed, DRAW_NORMAL, {0,255,0,255});
         moai.rotate_object_y(0.05);
         moai.translate_object({cos(delete_this_double), sin(delete_this_double*10/7), 0});
 
