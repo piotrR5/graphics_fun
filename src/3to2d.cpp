@@ -55,22 +55,20 @@ vector<Object2> projection(Camera camera, std::vector<Object3> objects){
 
     std::vector<Object2>returned;
 
+    Vec3 cam_vec = {camera.get_projection_plane().x, camera.get_projection_plane().y, camera.get_projection_plane().z};
+
     for(auto& object : objects){
         Object2 o_temp;
+         
         bool toRender=true;
         for(auto& vertexVectors:object.getVertices()){
             std::vector<Point2>vec2_temp;
-            for(auto& v:vertexVectors)  if(distance_from_camera(camera.get_camera_origin(), v.makeVec3())<5 || v.z-camera.get_camera_origin().z <0){
-                                            toRender=false;
-                                            break;
-                                        }  
-            if(toRender==false){
-                toRender=true;
-                continue;
-            }
 
 
             for(auto& v:vertexVectors){
+                if(distance_from_camera(camera.get_camera_origin(), v.makeVec3())<5 ||
+                    !isVecInFrontOfCamera(v.makeVec3(),camera))break;
+
                 Vec3 intersection=intersection_point(camera, v.makeVec3());
                 Vec2 point_on_plane=find_point_coordinates_on_plane(camera, intersection);
                 vec2_temp.push_back({point_on_plane.x, point_on_plane.y});
@@ -83,7 +81,7 @@ vector<Object2> projection(Camera camera, std::vector<Object3> objects){
 }
 
 Vec2 find_point_coordinates_on_plane(Camera camera, Vec3 p){
-    return {(p.x-camera.get_camera_origin().x)*3, (p.y-camera.get_camera_origin().y)*3};
+    return {(p.x-camera.get_camera_origin().x)*1, (p.y-camera.get_camera_origin().y)*1};
 }
 
 Vec3 intersection_point(Camera _camera, Vec3 vertex){
@@ -112,4 +110,17 @@ double distance_from_camera(Vec3 camera_origin ,Vec3 vertex){
     return sqrt((camera_origin.x-vertex.x)*(camera_origin.x-vertex.x)+
     (camera_origin.y-vertex.y)*(camera_origin.y-vertex.y)+
     (camera_origin.z-vertex.z)*(camera_origin.z-vertex.z));
+}
+
+bool isVecInFrontOfCamera(Vec3 v, Camera cam){
+    Vec3 co=cam.get_camera_origin();
+    Vec4 pp=cam.get_projection_plane();
+
+    Vec3 cv=subtract_vectors(v,co);
+    Vec3 cp=subtract_vectors({pp.x,pp.y,pp.z}, {0,0,0});
+
+    double angle=acos((cv.x*cp.x + cv.y*cp.y + cv.z*cp.z)/(sqrt(cv.x*cv.x + cv.y*cv.y + cv.z*cv.z)*sqrt(cp.x*cp.x + cp.y*cp.y + cp.z*cp.z)));
+
+    if(angle > 3.14/2 || angle > FIELD_OF_VIEW)return false;
+    return true;
 }

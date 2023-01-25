@@ -159,7 +159,7 @@ bool Engine::mainLoop(){
                 }
             }
         }
-        draw(moai_tranformed, DRAW_NORMAL, {0,255,0,255});
+        draw(moai_tranformed, DRAW_WIREFRAME_NORMAL, {0,255,0,255});
         // moai.rotate_object_y(0.05);
         // moai.translate_object({cos(delete_this_double), sin(delete_this_double*10/7), 0});
 

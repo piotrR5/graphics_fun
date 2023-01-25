@@ -63,4 +63,7 @@ Vec2 find_point_coordinates_on_plane(Camera _camera, Vec3 _intersection_point);
 */
 double distance_from_camera(Vec3 _camera_origin ,Vec3 vertex);
 
+
+bool isVecInFrontOfCamera(Vec3 v, Camera cam);
+
 #endif
