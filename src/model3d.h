@@ -2,6 +2,7 @@
 #include <cmath>
 #include "mathUtils.h"
 #include "constants.h"
+#include "STL_utils.cpp"
 
 
 #ifndef MODEL3D
@@ -38,7 +39,6 @@ public:
 };
 
 Vec3 determineAxis(Object3 _object);
-
 //TODO:
     //rotating by 3 angles
 

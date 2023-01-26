@@ -32,7 +32,6 @@ void drawTriangleMesh(Point2 a, Point2 b, Point2 c, SDL_Renderer* renderer);
 
 void drawTriangleMesh(Point2 a, Point2 b, Point2 c, Color_RGBA color, SDL_Renderer* renderer);
 
-
 /*
     functions that transform 2D plane objects to fit the screen
 */

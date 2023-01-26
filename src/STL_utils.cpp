@@ -3,13 +3,15 @@
 #include <fstream>
 #include <filesystem>
 #include "constants.h"
-
-
 #include "mathUtils.h"
 
 #include <iostream>
 
 // UNCOMENT IF USED IN Pedor's PROJECT
+
+#ifndef STL_UTILS
+#define STL_UTILS
+
 #define PP
 
 #ifdef PP
@@ -44,12 +46,6 @@
 //      and it's normal is: normals[i]
 // }
 // ----------------------------------
-
-struct Vec3f{
-    float x;
-    float y;
-    float z;
-};
 
 // file io return codes:
 // 0 - ok
@@ -172,6 +168,8 @@ struct STLObject{
         }
         return returned;
     }
+
+
 #endif
 
     void debug_print(){
@@ -196,3 +194,5 @@ struct STLObject{
     }
     
 };
+
+#endif

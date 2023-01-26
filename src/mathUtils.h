@@ -16,6 +16,12 @@ struct Color_RGBA{
     uint8_t r=0, g=0, b=0, a=255;
 };
 
+struct Vec3f{
+    float x;
+    float y;
+    float z;
+};
+
 class Matrix4{
     vector<vector<double>> data;
 
@@ -117,6 +123,14 @@ vector<vector<double>> rz_elementary_rotation(double angle);
 vector<vector<double>> vector3_to_matrix(Vec3 v);
 
 Vec3 matrix_to_vector3(vector<vector<double>> matrix);
+
+Vec3 ftod(Vec3f v);
+
+struct Triangle3_STL{
+    Vec3 a,b,c,normal;
+};
+
+double angleBetweenVectors(Vec3 cp, Vec3 cv);
 
 #endif
 

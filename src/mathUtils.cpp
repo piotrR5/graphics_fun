@@ -1,5 +1,9 @@
 #include "mathUtils.h"
 
+Vec3 ftod(Vec3f v){
+    return {(double)v.x, (double)v.y, (double)v.z};
+}
+
 Vec3 add_vectors(Vec3 v1, Vec3 v2){
     return {v1.x+v2.x, v1.y+v2.y, v1.z+v2.z};
 }
@@ -331,3 +335,6 @@ vector<vector<double>> rz_elementary_rotation(double angle){
     return {{cos(angle),-sin(angle),0},{sin(angle),cos(angle),0},{0,0,1}};
 }
 
+double angleBetweenVectors(Vec3 cp, Vec3 cv){
+    return (acos((cv.x*cp.x + cv.y*cp.y + cv.z*cp.z)/(sqrt(cv.x*cv.x + cv.y*cv.y + cv.z*cv.z)*sqrt(cp.x*cp.x + cp.y*cp.y + cp.z*cp.z))));
+}

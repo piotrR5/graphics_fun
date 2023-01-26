@@ -304,6 +304,7 @@ void drawTriangleMesh(Point2 a, Point2 b, Point2 c, Color_RGBA color, SDL_Render
     drawLine(c,a,color,renderer);
 }
 
+
 std::vector<Object2>transformToFitScreen(std::vector<Object2> obj){
     std::vector<Object2>ret;
     for(auto& o:obj){

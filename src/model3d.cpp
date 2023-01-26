@@ -117,3 +117,11 @@ std::vector<std::vector<Point3>>& Object3::getVertices(){
 Vec3& Object3::getAxis(){
     return axis;
 }
+
+
+
+
+
+
+
+

@@ -119,8 +119,9 @@ bool isVecInFrontOfCamera(Vec3 v, Camera cam){
     Vec3 cv=subtract_vectors(v,co);
     Vec3 cp=subtract_vectors({pp.x,pp.y,pp.z}, {0,0,0});
 
-    double angle=acos((cv.x*cp.x + cv.y*cp.y + cv.z*cp.z)/(sqrt(cv.x*cv.x + cv.y*cv.y + cv.z*cv.z)*sqrt(cp.x*cp.x + cp.y*cp.y + cp.z*cp.z)));
+    double angle=angleBetweenVectors(cp,cv);
 
     if(angle > 3.14/2 || angle > FIELD_OF_VIEW)return false;
     return true;
 }
+

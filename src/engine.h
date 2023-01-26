@@ -21,8 +21,9 @@ public:
     SDL_Renderer* renderer;
     int fps=60;
     int desiredDT=1000/fps;
+    Camera camera;
 
-    
+    void eventHandler(bool& run);
 
     /*
         draw function invokes rasterization functions to draw every 2D object
@@ -36,5 +37,4 @@ public:
     Engine();
 
     ~Engine();
-
 };
