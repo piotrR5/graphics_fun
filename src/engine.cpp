@@ -51,9 +51,6 @@ void debugObject2(std::vector<Object2>o){
 }
 
 bool Engine::mainLoop(){
-
-    
-
     srand(time(NULL));
 
     bool run=true;
@@ -109,15 +106,21 @@ bool Engine::mainLoop(){
                     case SDLK_w:
                         camera.moveCamera({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z});
                     break;
-                    case SDLK_a:
-                        camera.moveCamera(matrix_to_vector3(multip_matrix(ry_elementary_rotation(-3.14/2),vector3_to_matrix({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z}))));
+                    case SDLK_a:{
+                        Vec3 moveVector=matrix_to_vector3(multip_matrix(ry_elementary_rotation(-3.14/2),vector3_to_matrix({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z})));
+                        moveVector.y=0;
+                        camera.moveCamera(moveVector);
+                    }
                     break;
                     case SDLK_s:
                         camera.moveCamera({-CAMERA_SPEED*camera.get_projection_plane().x, -CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*-camera.get_projection_plane().z});
                         printf( "S pressed\n");
                     break;
-                    case SDLK_d:
-                        camera.moveCamera(matrix_to_vector3(multip_matrix(ry_elementary_rotation(3.14/2),vector3_to_matrix({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z}))));
+                    case SDLK_d:{
+                        Vec3 moveVector=matrix_to_vector3(multip_matrix(ry_elementary_rotation(3.14/2),vector3_to_matrix({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z})));
+                        moveVector.y=0;
+                        camera.moveCamera(moveVector);
+                    }
                     break;
                     case SDLK_SPACE:
                         camera.moveCamera({0,CAMERA_SPEED,0});
@@ -175,7 +178,7 @@ bool Engine::mainLoop(){
         if(dT<desiredDT){
             SDL_Delay(desiredDT-dT);
         }
-        clearConsole();
+        //clearConsole();
     }
 
     return 0;

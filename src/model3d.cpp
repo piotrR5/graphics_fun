@@ -84,25 +84,28 @@ void Object3::set_object_position(Vec3 position){
 }
 
 void Object3::rotate_object_x(double angle){
+    auto rotationMatrix=rx_elementary_rotation(angle);
     for(auto& i:vertices){
         for(auto& j:i){
-            j=add_vectors(axis,matrix_to_vector3(multip_matrix(rx_elementary_rotation(angle),vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
+            j=add_vectors(axis,matrix_to_vector3(multip_matrix(rotationMatrix,vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
         }
     }
 }
 
 void Object3::rotate_object_y(double angle){
+    auto rotationMatrix=ry_elementary_rotation(angle);
     for(auto& i:vertices){
         for(auto& j:i){
-            j=add_vectors(axis,matrix_to_vector3(multip_matrix(ry_elementary_rotation(angle),vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
+            j=add_vectors(axis,matrix_to_vector3(multip_matrix(rotationMatrix,vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
         }
     }
 }
 
 void Object3::rotate_object_z(double angle){
+    auto rotationMatrix=rz_elementary_rotation(angle);
     for(auto& i:vertices){
         for(auto& j:i){
-            j=add_vectors(axis,matrix_to_vector3(multip_matrix(rz_elementary_rotation(angle),vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
+            j=add_vectors(axis,matrix_to_vector3(multip_matrix(rotationMatrix,vector3_to_matrix(subtract_vectors(j.makeVec3(),axis)))));
         }
     }
 }
