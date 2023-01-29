@@ -128,7 +128,9 @@ bool Engine::mainLoop(){
         draw(transformToFitScreen(projection(camera, {camera.axisY})), DRAW_COLOR, {255,0,0,255});
         draw(transformToFitScreen(projection(camera, {camera.axisZ})), DRAW_COLOR, {0,255,0,255});
 
-        draw(transformToFitScreen(projection(camera, {maoi})), DRAW_WIREFRAME_COLOR, {0,255,0,255});
+        draw(transformToFitScreen(projection(camera, {maoi})), DRAW_COLOR, {0,255,0,255});
+        maoi.rotate_object_y(0.01);
+        maoi.rotate_object_z(0.05);
 
         SDL_RenderPresent(renderer);
 
