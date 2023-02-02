@@ -13,9 +13,6 @@
 */
 
 class Camera{
-
-    
-    
     Vec3 camera_origin;
     Vec4 projection_plane;
 

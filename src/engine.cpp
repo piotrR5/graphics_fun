@@ -119,16 +119,16 @@ bool Engine::mainLoop(){
         /*
         
         */
-        draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {50,50,50,255});
+        //draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {50,50,50,255});
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
 
-        draw(transformToFitScreen(projection(camera, {camera.axisX})), DRAW_COLOR, {0,0,255,255});
-        draw(transformToFitScreen(projection(camera, {camera.axisY})), DRAW_COLOR, {255,0,0,255});
-        draw(transformToFitScreen(projection(camera, {camera.axisZ})), DRAW_COLOR, {0,255,0,255});
+        // draw(transformToFitScreen(projection(camera, {camera.axisX})), DRAW_COLOR, {0,0,255,255});
+        // draw(transformToFitScreen(projection(camera, {camera.axisY})), DRAW_COLOR, {255,0,0,255});
+        // draw(transformToFitScreen(projection(camera, {camera.axisZ})), DRAW_COLOR, {0,255,0,255});
 
-        draw(transformToFitScreen(projection(camera, {maoi})), DRAW_COLOR, {0,255,0,255});
+        // draw(transformToFitScreen(projection(camera, {maoi})), DRAW_COLOR, {0,255,0,255});
         maoi.rotate_object_y(0.01);
         maoi.rotate_object_z(0.05);
 
@@ -149,39 +149,39 @@ bool Engine::mainLoop(){
     return 0;
 }
 
-void Engine::draw(std::vector<Object2> object, uint8_t mode, Color_RGBA color){
-    if(mode==DRAW_WIREFRAME_NORMAL){
-        for(auto& o:object){
-            for(auto& i:o.getVertices()){
-                if(i.size()==1)drawPoint(i[0], renderer);
-                if(i.size()==2)drawLine(i[0],i[1], renderer);
-                if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], renderer);
-            }
-        }
-    }else if(mode==DRAW_WIREFRAME_COLOR){
-        for(auto& o:object){
-            for(auto& i:o.getVertices()){
-                if(i.size()==1)drawPoint(i[0], color,renderer);
-                if(i.size()==2)drawLine(i[0],i[1], color,renderer);
-                if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], color, renderer);
-            }
-        }
-    }else if(mode==DRAW_NORMAL){
-        for(auto& o:object){
-            for(auto& i:o.getVertices()){
-                if(i.size()==1)drawPoint(i[0], renderer);
-                if(i.size()==2)drawLine(i[0],i[1], renderer);
-                if(i.size()==3)drawTriangle(i[0],i[1],i[2], renderer);
-            }
-        }
-    }else if(mode==DRAW_COLOR){
-        for(auto& o:object){
-            for(auto& i:o.getVertices()){
-                if(i.size()==1)drawPoint(i[0], color,renderer);
-                if(i.size()==2)drawLine(i[0],i[1], color,renderer);
-                if(i.size()==3)drawTriangle(i[0],i[1],i[2],color, renderer);
-            }
-        }
-    }
-}
+// void Engine::draw(std::vector<Object2> object, uint8_t mode, Color_RGBA color){
+//     if(mode==DRAW_WIREFRAME_NORMAL){
+//         for(auto& o:object){
+//             for(auto& i:o.getVertices()){
+//                 if(i.size()==1)drawPoint(i[0], renderer);
+//                 if(i.size()==2)drawLine(i[0],i[1], renderer);
+//                 if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], renderer);
+//             }
+//         }
+//     }else if(mode==DRAW_WIREFRAME_COLOR){
+//         for(auto& o:object){
+//             for(auto& i:o.getVertices()){
+//                 if(i.size()==1)drawPoint(i[0], color,renderer);
+//                 if(i.size()==2)drawLine(i[0],i[1], color,renderer);
+//                 if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], color, renderer);
+//             }
+//         }
+//     }else if(mode==DRAW_NORMAL){
+//         for(auto& o:object){
+//             for(auto& i:o.getVertices()){
+//                 if(i.size()==1)drawPoint(i[0], renderer);
+//                 if(i.size()==2)drawLine(i[0],i[1], renderer);
+//                 if(i.size()==3)drawTriangle(i[0],i[1],i[2], renderer);
+//             }
+//         }
+//     }else if(mode==DRAW_COLOR){
+//         for(auto& o:object){
+//             for(auto& i:o.getVertices()){
+//                 if(i.size()==1)drawPoint(i[0], color,renderer);
+//                 if(i.size()==2)drawLine(i[0],i[1], color,renderer);
+//                 if(i.size()==3)drawTriangle(i[0],i[1],i[2],color, renderer);
+//             }
+//         }
+//     }
+// }
 

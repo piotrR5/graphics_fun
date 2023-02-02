@@ -22,21 +22,6 @@ struct Vec3f{
     float z;
 };
 
-class Matrix4{
-    vector<vector<double>> data;
-
-    public:
-    Matrix4();
-
-    vector<vector<double>> inverse_matrix4(vector<vector<double>> matrix);
-
-    double& at(size_t row, char col);
-};
-
-vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2);
-
-vector<vector<double>> multip_matrix_by_constant(vector<vector<double>> matrix, double constant);
-
 struct Vec4{
     double x=0, y=0, z=0, w=0;
     void add(Vec4 v);
@@ -77,6 +62,10 @@ struct Triangle3{
     Triangle3(Point3 a, Point3 b, Point3 c);
 };
 
+struct Triangle3_STL{
+    Vec3 a,b,c,normal;
+};
+
 struct Point2{
     double x=0,y=0;
     Color_RGBA color;
@@ -85,6 +74,9 @@ struct Point2{
 
     Vec2 makeVec2();
 
+    Point2(Vec2 v, Color_RGBA c);
+    Point2(Vec2 v);
+    Point2(double x, double y, Color_RGBA c);
     Point2(double x, double y);
     Point2();
 };
@@ -114,6 +106,10 @@ Vec3 add_vectors(Vec3 v1, Vec3 v2);
 
 Vec3 subtract_vectors(Vec3 v1, Vec3 v2);
 
+Vec2 add_vectors(Vec2 v1, Vec2 v2);
+
+Vec2 subtract_vectors(Vec2 v1, Vec2 v2);
+
 vector<vector<double>> rx_elementary_rotation(double angle);
 
 vector<vector<double>> ry_elementary_rotation(double angle);
@@ -126,11 +122,11 @@ Vec3 matrix_to_vector3(vector<vector<double>> matrix);
 
 Vec3 ftod(Vec3f v);
 
-struct Triangle3_STL{
-    Vec3 a,b,c,normal;
-};
-
 double angleBetweenVectors(Vec3 cp, Vec3 cv);
+
+vector<vector<double>> multip_matrix(vector<vector<double>> matrix_1, vector<vector<double>> matrix_2);
+
+vector<vector<double>> multip_matrix_by_constant(vector<vector<double>> matrix, double constant);
 
 #endif
 

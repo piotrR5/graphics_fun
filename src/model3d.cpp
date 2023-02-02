@@ -1,14 +1,9 @@
 #include "mathUtils.h"
 #include "model3d.h"
 
-Object3::Object3(){
-    axis={0,0,0};
-}
+Object3::Object3():axis({0,0,0}){}
 
-Object3::Object3(std::vector<std::vector<Point3>>v){
-    vertices=v;
-    axis=determineAxis(*this);
-}
+Object3::Object3(std::vector<std::vector<Point3>>v):vertices(v), axis(determineAxis(*this)){}
 
 Object3::Object3(std::vector<std::vector<Vec3>>v){
     for(auto& i:v){
@@ -21,14 +16,9 @@ Object3::Object3(std::vector<std::vector<Vec3>>v){
     axis=determineAxis(*this);
 }
 
-Object3::Object3(std::vector<std::vector<Point3>>v, Vec3 a){
-    vertices=v;
-    axis=a;
-}
+Object3::Object3(std::vector<std::vector<Point3>>v, Vec3 a):vertices(v), axis(a){}
 
-Object3::Object3(Vec3 a){
-    axis=a;
-}
+Object3::Object3(Vec3 a):axis(a){}
 
 Vec3 determineAxis(Object3 _object){
     Vec3 return_axis={0,0,0};

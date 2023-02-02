@@ -169,6 +169,15 @@ struct STLObject{
         return returned;
     }
 
+    std::vector<Vec3> getNormals(){
+        std::vector<Vec3>returned;
+        for(uint32_t i=0; i<triangle_count; ++i){
+            Vec3 temp={normals[i].x, normals[i].y, normals[i].z};
+            returned.push_back(temp);
+        }
+        return returned;
+    }
+
 
 #endif
 

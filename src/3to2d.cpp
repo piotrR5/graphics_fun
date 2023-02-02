@@ -43,26 +43,24 @@ void Camera::setCameraOrigin(Vec3 o){
 void Camera::setProjectionPlane(Vec4 p){
     projection_plane=p;
 }
+
 void Camera::moveCamera(Vec3 v){
     camera_origin=add_vectors(camera_origin, v);
     axisX.translate_object(v);
     axisY.translate_object(v);
     axisZ.translate_object(v);
-
 }
 
 vector<Object2> projection(Camera camera, std::vector<Object3> objects){
-
     std::vector<Object2>returned;
-
-    Vec3 cam_vec = {camera.get_projection_plane().x, camera.get_projection_plane().y, camera.get_projection_plane().z};
+    Vec3 cameraVector = {camera.get_projection_plane().x, camera.get_projection_plane().y, camera.get_projection_plane().z};
 
     for(auto& object : objects){
-        Object2 o_temp;
+        Object2 tempObject;
          
         bool toRender=true;
         for(auto& vertexVectors:object.getVertices()){
-            std::vector<Point2>vec2_temp;
+            std::vector<Point2>tempVec2;
 
 
             for(auto& v:vertexVectors){
@@ -71,11 +69,11 @@ vector<Object2> projection(Camera camera, std::vector<Object3> objects){
 
                 Vec3 intersection=intersection_point(camera, v.makeVec3());
                 Vec2 point_on_plane=find_point_coordinates_on_plane(camera, intersection);
-                vec2_temp.push_back({point_on_plane.x, point_on_plane.y});
+                tempVec2.push_back({point_on_plane.x, point_on_plane.y, v.color});
             }
-            o_temp.getVertices().push_back(vec2_temp);
+            tempObject.getVertices().push_back(tempVec2);
         }
-        returned.push_back(o_temp);
+        returned.push_back(tempObject);
     }
     return returned;
 }
@@ -94,7 +92,6 @@ Vec3 intersection_point(Camera _camera, Vec3 vertex){
         origin.z-vertex.z
     };
     
-
     double t=-(plane.x*(vertex.x - origin.x) + plane.y*(vertex.y - origin.y) + plane.z*(vertex.z - origin.z) + plane.w)/(point_camera_vector.x*plane.x + point_camera_vector.y*plane.y + point_camera_vector.z*plane.z);
 
     return_point={

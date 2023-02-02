@@ -1,23 +1,13 @@
 #include "mathUtils.h"
 #include "model2d.h"
 
-Object2::Object2(){
-    axis=Vec2();
-}
+Object2::Object2():axis({0,0}){}
 
-Object2::Object2(std::vector<std::vector<Point2>>v){
-    vertices=v;
-    axis=Vec2();
-}
+Object2::Object2(std::vector<std::vector<Point2>>v):vertices(v), axis({0,0}){}
 
-Object2::Object2(std::vector<std::vector<Point2>>v, Vec2 a){
-    vertices=v;
-    axis=a;
-}
+Object2::Object2(std::vector<std::vector<Point2>>v, Vec2 a):vertices(v), axis(a){}
 
-Object2::Object2(Vec2 a){
-    axis=a;
-}
+Object2::Object2(Vec2 a):axis(a){}
 
 void Object2::addVertices(std::vector<std::vector<Point2>>v){
     for(auto o:v)vertices.push_back(o);
@@ -34,6 +24,8 @@ std::vector<std::vector<Point2>>& Object2::getVertices(){
 Vec2& Object2::getAxis(){
     return axis;
 }
+
+
 
 void Object2::rotate(double a){
     std::vector<std::vector<Vec2>>points;
@@ -74,4 +66,18 @@ void Object2::scale(double x){
             v.y=old.y+axis.y;
         }
     }
+}
+
+Vec2 determineAxis(Object2 object){
+    Vec2 ret({0,0});
+    int c=0;
+    for(auto& i:object.getVertices()){
+        for(auto& j:i){
+            ret.add(j.makeVec2());
+            c++;
+        }
+    }
+    ret.x/=c;
+    ret.y/=c;
+    return ret;
 }

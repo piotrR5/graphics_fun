@@ -28,16 +28,12 @@ public:
     std::vector<std::vector<Point2>>& getVertices();
     Vec2& getAxis();
 
-
-
-
     void rotate(double a);
     void move(Vec2 vec);
     void setPos(Vec2 vec);
     void scale(double x);
-
-    //TODO:
-    //scale by a double value
 };
+
+Vec2 determineAxis(Object2 object);
 
 #endif
