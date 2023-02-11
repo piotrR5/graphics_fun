@@ -1,10 +1,10 @@
 #include "3to2d.h"
 
 Camera::Camera():camera_origin({0,0,-500}),projection_plane({0,0,1,-500}){
-    O=Point3(0,0,500);
-    X=Point3(50,0,500); Xa1=Point3(40,5,500); Xa2=Point3(40,-5,500); 
-    Y=Point3(0,50,500); Ya1=Point3(5,40,500); Ya2=Point3(-5,40,500);
-    Z=Point3(0,0,550); Za1=Point3(5,0,540); Za2=Point3(-5, 0, 540);
+    O=Point3(0,0,0, {150,150,150,255});
+    X=Point3(50,0,500, {0,0,255}); Xa1=Point3(40,5,500, {0,0,255}); Xa2=Point3(40,-5,500, {0,0,255}); 
+    Y=Point3(0,50,500, {0,255,0}); Ya1=Point3(5,40,500, {0,255,0}); Ya2=Point3(-5,40,500, {0,255,0});
+    Z=Point3(0,0,550, {255,0,0}); Za1=Point3(5,0,540, {255,0,0}); Za2=Point3(-5, 0, 540, {255,0,0});
 
     axisX=Object3({{O,X}, {X,Xa1}, {X,Xa2}}); 
     axisY=Object3({{O,Y}, {Y,Ya1}, {Y,Ya2}});
@@ -15,10 +15,10 @@ Camera::Camera(Vec3 o, Vec4 p){
     camera_origin=o;
     projection_plane=p;
 
-    O=Point3(0,0,0);
-    X=Point3(50,0,500); Xa1=Point3(40,5,500); Xa2=Point3(40,-5,500); 
-    Y=Point3(0,50,500); Ya1=Point3(5,40,500); Ya2=Point3(-5,40,500);
-    Z=Point3(0,0,550); Za1=Point3(5,0,540); Za2=Point3(-5, 0, 540);
+    O=Point3(0,0,0, {150,150,150,255});
+    X=Point3(50,0,500, {0,0,255}); Xa1=Point3(40,5,500, {0,0,255}); Xa2=Point3(40,-5,500, {0,0,255}); 
+    Y=Point3(0,50,500, {0,255,0}); Ya1=Point3(5,40,500, {0,255,0}); Ya2=Point3(-5,40,500, {0,255,0});
+    Z=Point3(0,0,550, {255,0,0}); Za1=Point3(5,0,540, {255,0,0}); Za2=Point3(-5, 0, 540, {255,0,0});
 
     axisX=Object3({{O,X}, {X,Xa1}, {X,Xa2}}); 
     axisY=Object3({{O,Y}, {Y,Ya1}, {Y,Ya2}});

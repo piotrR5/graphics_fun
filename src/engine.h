@@ -28,7 +28,7 @@ public:
     /*
         draw function invokes rasterization functions to draw every 2D object
     */
-    //void draw(std::vector<Object2> obj, uint8_t mode, Color_RGBA color);
+    void draw(std::vector<Object2> obj, uint8_t mode, Color_RGBA color);
     // void draw(std::vector<Object2> obj, Color_RGBA (*shader)(int i));
     
 

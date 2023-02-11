@@ -46,7 +46,7 @@ double angleBetweenVectors(Vec3 cp, Vec3 cv){
 Point2::Point2(Vec2 v, Color_RGBA c){
     x=v.x;
     y=v.y;
-    c=c;
+    color=c;
 }
 
 Point2::Point2(Vec2 v){
@@ -102,12 +102,25 @@ Point3::Point3(double x, double y, double z){
     this->z=z;
 }
 
+Point3::Point3(double x, double y, double z, Color_RGBA c){
+    this->x=x;
+    this->y=y;
+    this->z=z;
+    color=c;
+}
+
 Point3::Point3(Vec3 v){
     x=v.x;
     y=v.y;
     z=v.z;
 }
 
+Point3::Point3(Vec3 v, Color_RGBA c){
+    x=v.x;
+    y=v.y;
+    z=v.z;
+    color=c;
+}
 
 Point3::Point3(){
     x=0;

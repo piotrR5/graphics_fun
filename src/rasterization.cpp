@@ -52,6 +52,9 @@ bool isInDomain(Vec2 x, Vec2 a, Vec2 b){
 
 
 void drawPoint(double x, double y, Color_RGBA color, SDL_Renderer* renderer){
+
+    //color=DEFAULT_DRAW_COLOR;
+
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawPoint(renderer, x, y);
     SDL_SetRenderDrawColor(renderer, 0,0,0,255);
@@ -68,7 +71,8 @@ void drawPoint(Vec2 point, Color_RGBA color, SDL_Renderer* renderer){
 
 
 void drawLine(Vec2 a, Color_RGBA c0, Vec2 b, Color_RGBA c1, SDL_Renderer* renderer){
-    Color_RGBA c;
+    Color_RGBA c=DEFAULT_DRAW_COLOR;
+    Point2 A(a.x, a.y, c0), B(b.x, b.y, c1);
 
     int x0=a.x, y0=a.y;
     int x1=b.x, y1=b.y;
@@ -82,7 +86,8 @@ void drawLine(Vec2 a, Color_RGBA c0, Vec2 b, Color_RGBA c1, SDL_Renderer* render
         Point2 m;
         m.x=x0;
         m.y=y0;
-        c=linearColorInterpolation({a, c0},{b, c1}, m);
+        c=linearColorInterpolation(A,B, m);
+        //c=DEFAULT_DRAW_COLOR;
         SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
         SDL_RenderDrawPoint(renderer, x0, y0);
         
@@ -104,7 +109,7 @@ void drawLine(Vec2 a, Color_RGBA c0, Vec2 b, Color_RGBA c1, SDL_Renderer* render
 }
 
 void drawLine(Point2 a, Point2 b, SDL_Renderer* renderer){
-    drawLine(a.makeVec2(), b.makeVec2(), renderer);
+    drawLine(a.makeVec2(), a.color, b.makeVec2(), b.color, renderer);
 }
 
 
@@ -131,16 +136,21 @@ void drawTriangle(Vec2 a, Color_RGBA c0, Vec2 b, Color_RGBA c1, Vec2 c, Color_RG
         double Ay=0;
         double By=y;
         Vec2 intersections[3];
+
         for(int i=0;i<3;i++)intersections[i]=linesIntersection(A[i], B[i], Ay, By);
+
+        Point2 tempA(a, c0), tempB(b, c1), tempC(c, c2);
+
+        
 
         if(isInDomain(intersections[0], a, b) && isInDomain(intersections[1], b,c)){
             i.x=intersections[0].x;
             i.y=y;
-            i.color=linearColorInterpolation({a,c0},{b,c1},intersections[0]);
+            i.color=linearColorInterpolation(tempA, tempB,intersections[0]);
 
             j.x=intersections[1].x;
             j.y=y;
-            j.color=linearColorInterpolation({b,c1},{c,c2},intersections[1]);
+            j.color=linearColorInterpolation(tempB, tempC,intersections[1]);
 
             drawLine(i,j,renderer);
             continue;
@@ -148,11 +158,11 @@ void drawTriangle(Vec2 a, Color_RGBA c0, Vec2 b, Color_RGBA c1, Vec2 c, Color_RG
         }else if(isInDomain(intersections[0], a, b) && isInDomain(intersections[2], c,a)){
             i.x=intersections[0].x;
             i.y=y;
-            i.color=linearColorInterpolation({a,c0},{b,c1},intersections[0]);
+            i.color=linearColorInterpolation(tempA, tempB, intersections[0]);
 
             j.x=intersections[2].x;
             j.y=y;
-            j.color=linearColorInterpolation({c,c2},{a,c0},intersections[2]);
+            j.color=linearColorInterpolation(tempC, tempA, intersections[2]);
 
             drawLine(i,j,renderer);
             continue;
@@ -160,11 +170,11 @@ void drawTriangle(Vec2 a, Color_RGBA c0, Vec2 b, Color_RGBA c1, Vec2 c, Color_RG
         }else if(isInDomain(intersections[2], c, a) && isInDomain(intersections[1], b,c)){
             i.x=intersections[2].x;
             i.y=y;
-            i.color=linearColorInterpolation({c,c2},{a,c0},intersections[2]);
+            i.color=linearColorInterpolation(tempC, tempA,intersections[2]);
 
             j.x=intersections[1].x;
             j.y=y;
-            j.color=linearColorInterpolation({b,c1},{c,c2},intersections[1]);
+            j.color=linearColorInterpolation(tempB, tempC ,intersections[1]);
 
             drawLine(i,j,renderer);
             continue;
@@ -196,7 +206,9 @@ std::vector<Object2>transformToFitScreen(std::vector<Object2> obj){
         std::vector<std::vector<Point2>>foo;
         for(auto& i:o.getVertices()){
             std::vector<Point2>r;
-            for(auto& v:i)r.push_back(transformPoint(v));
+            for(auto& v:i){
+                r.push_back(transformPoint(v));
+            }
             foo.push_back(r);
         }
         ret.push_back(Object2(foo));

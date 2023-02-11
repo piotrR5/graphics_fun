@@ -18,6 +18,8 @@
 
 #endif
 
+int drawMode=DRAW_NORMAL;
+
 Engine::Engine(){
     SDL_Init(SDL_INIT_EVERYTHING);
     window=SDL_CreateWindow("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN); 
@@ -85,6 +87,12 @@ void Engine::eventHandler(bool& run){
                 case SDLK_LSHIFT:
                     camera.moveCamera({0,-CAMERA_SPEED,0});
                 break;
+                case SDLK_m:{
+                    drawMode++;
+                    drawMode%=4;
+                    drawMode++;
+                }
+                break;
             }
             printf( "Key press detected\n" );
             break;
@@ -98,6 +106,8 @@ void Engine::eventHandler(bool& run){
 
 bool Engine::mainLoop(){
     bool run=true;
+
+    
     /*
         axis:
     */
@@ -105,9 +115,13 @@ bool Engine::mainLoop(){
     /*
 
     */
-    STLObject test;
+    STLObject test, test2;
     test.read_file("stl_models/lantern.stl");
-    Object3 maoi(test.getTriangles());
+    test2.read_file("stl_models/paleta.stl");
+    Object3 ob(test.getTriangles()), ob1(test2.getTriangles());
+    ob.rotate_object_x(3.14/2+3.14);
+    ob1.rotate_object_x(3.14/2+3.14);
+    ob1.translate_object({40,20,0});
 
     while(run){
         int startLoop=SDL_GetTicks();
@@ -119,18 +133,26 @@ bool Engine::mainLoop(){
         /*
         
         */
-        //draw(transformToFitScreen(AXIS), DRAW_WIREFRAME_COLOR, {50,50,50,255});
+        draw(transformToFitScreen(AXIS), DRAW_COLOR, {50,50,50,255});
         /*
             handle adding obcjects before "tranformToFitScreen" and "drawAll" functions
         */
 
-        // draw(transformToFitScreen(projection(camera, {camera.axisX})), DRAW_COLOR, {0,0,255,255});
-        // draw(transformToFitScreen(projection(camera, {camera.axisY})), DRAW_COLOR, {255,0,0,255});
-        // draw(transformToFitScreen(projection(camera, {camera.axisZ})), DRAW_COLOR, {0,255,0,255});
 
-        // draw(transformToFitScreen(projection(camera, {maoi})), DRAW_COLOR, {0,255,0,255});
-        maoi.rotate_object_y(0.01);
-        maoi.rotate_object_z(0.05);
+        draw(transformToFitScreen(projection(camera, {camera.axisX})), DRAW_NORMAL, {0,0,255,255});
+        draw(transformToFitScreen(projection(camera, {camera.axisY})), DRAW_NORMAL, {255,0,0,255});
+        draw(transformToFitScreen(projection(camera, {camera.axisZ})), DRAW_NORMAL, {0,255,0,255});
+
+
+
+
+        draw(transformToFitScreen(projection(camera, {ob})), drawMode, {0,255,0,255});
+        draw(transformToFitScreen(projection(camera, {ob1})), drawMode, {0,255,0,255});
+        ob.rotate_object_y(0.01);
+        
+
+
+
 
         SDL_RenderPresent(renderer);
 
@@ -149,39 +171,39 @@ bool Engine::mainLoop(){
     return 0;
 }
 
-// void Engine::draw(std::vector<Object2> object, uint8_t mode, Color_RGBA color){
-//     if(mode==DRAW_WIREFRAME_NORMAL){
-//         for(auto& o:object){
-//             for(auto& i:o.getVertices()){
-//                 if(i.size()==1)drawPoint(i[0], renderer);
-//                 if(i.size()==2)drawLine(i[0],i[1], renderer);
-//                 if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], renderer);
-//             }
-//         }
-//     }else if(mode==DRAW_WIREFRAME_COLOR){
-//         for(auto& o:object){
-//             for(auto& i:o.getVertices()){
-//                 if(i.size()==1)drawPoint(i[0], color,renderer);
-//                 if(i.size()==2)drawLine(i[0],i[1], color,renderer);
-//                 if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], color, renderer);
-//             }
-//         }
-//     }else if(mode==DRAW_NORMAL){
-//         for(auto& o:object){
-//             for(auto& i:o.getVertices()){
-//                 if(i.size()==1)drawPoint(i[0], renderer);
-//                 if(i.size()==2)drawLine(i[0],i[1], renderer);
-//                 if(i.size()==3)drawTriangle(i[0],i[1],i[2], renderer);
-//             }
-//         }
-//     }else if(mode==DRAW_COLOR){
-//         for(auto& o:object){
-//             for(auto& i:o.getVertices()){
-//                 if(i.size()==1)drawPoint(i[0], color,renderer);
-//                 if(i.size()==2)drawLine(i[0],i[1], color,renderer);
-//                 if(i.size()==3)drawTriangle(i[0],i[1],i[2],color, renderer);
-//             }
-//         }
-//     }
-// }
+void Engine::draw(std::vector<Object2> object, uint8_t mode, Color_RGBA color){
+    if(mode==DRAW_WIREFRAME_NORMAL){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], renderer);
+                if(i.size()==2)drawLine(i[0],i[1], renderer);
+                if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], renderer);
+            }
+        }
+    }else if(mode==DRAW_WIREFRAME_COLOR){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], renderer);
+                if(i.size()==2)drawLine(i[0],i[1], renderer);
+                if(i.size()==3)drawTriangleMesh(i[0],i[1],i[2], renderer);
+            }
+        }
+    }else if(mode==DRAW_NORMAL){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], renderer);
+                if(i.size()==2)drawLine(i[0],i[1], renderer);
+                if(i.size()==3)drawTriangle(i[0],i[1],i[2], renderer);
+            }
+        }
+    }else if(mode==DRAW_COLOR){
+        for(auto& o:object){
+            for(auto& i:o.getVertices()){
+                if(i.size()==1)drawPoint(i[0], renderer);
+                if(i.size()==2)drawLine(i[0],i[1], renderer);
+                if(i.size()==3)drawTriangle(i[0],i[1],i[2], renderer);
+            }
+        }
+    }
+}
 

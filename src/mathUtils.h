@@ -45,7 +45,9 @@ struct Point3{
 
     Vec3 makeVec3();
 
+    Point3(double x, double y, double z, Color_RGBA c);
     Point3(double x, double y, double z);
+    Point3(Vec3 v, Color_RGBA c);
     Point3(Vec3 v);
     Point3();
 };
