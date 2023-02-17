@@ -28,8 +28,6 @@ double getA(Vec2 a, Vec2 b){
 }
 
 double getB(Vec2 p, double a){
-    double ret=0.0;
-
     if(a==INT_BIG)return INT_BIG;
     return p.y - a*p.x;
 }
@@ -120,7 +118,6 @@ void drawTriangle(Vec2 a, Color_RGBA c0, Vec2 b, Color_RGBA c1, Vec2 c, Color_RG
 
     double A[3];
     double B[3];
-    int X[3];
 
     A[0]=getA(a,b);
     A[1]=getA(b,c);

@@ -53,12 +53,10 @@ void Camera::moveCamera(Vec3 v){
 
 vector<Object2> projection(Camera camera, std::vector<Object3> objects){
     std::vector<Object2>returned;
-    Vec3 cameraVector = {camera.get_projection_plane().x, camera.get_projection_plane().y, camera.get_projection_plane().z};
 
     for(auto& object : objects){
         Object2 tempObject;
          
-        bool toRender=true;
         for(auto& vertexVectors:object.getVertices()){
             std::vector<Point2>tempVec2;
 
