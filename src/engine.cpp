@@ -62,6 +62,12 @@ void Engine::eventHandler(bool& run){
         break;
         case SDL_KEYDOWN:
             switch(event.key.keysym.sym){
+                case SDLK_q:{
+                    run = false;
+                    std::cout << "Quitting!\n";
+                    break;
+                }
+                break;
                 case SDLK_w:
                     camera.moveCamera({CAMERA_SPEED*camera.get_projection_plane().x, CAMERA_SPEED*camera.get_projection_plane().y, CAMERA_SPEED*camera.get_projection_plane().z});
                 break;

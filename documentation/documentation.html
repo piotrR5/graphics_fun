@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>3D engine project - Piotr Rodkiewicz</title>
+        <style>
+            h1{
+                padding-left: 10%;
+            }
+
+            h2{
+                padding-left: 5%;
+                padding-right: 15%;
+            }
+
+            h3{
+                padding-left: 5%;
+                padding-right: 15%;
+            }
+
+            ul{
+                padding-left:7%;
+            }
+
+            li{
+                font-size:large;
+            }
+
+            img{
+                width: 40%;
+                padding-left: 10%;
+            }
+        </style>
+
+
+    </head>
+
+    <body>
+        <h1>3D Engine project</h1>
+        <br>
+        <h2>The 3D Engine project has been an exercise for me and two of my friends which i will list later. It has been an exercise in problem solving, project building and higher level maths as we are all high school students. In this documentation i will showcase the engines capabilities as well as give an explanation to it's inner workings. The whole project has been written in C++, window and point drawing is done using SDL2 library.
+        <br>
+        <br>
+        Piotr Rodkiewicz
+        </h2>
+
+        <ul>
+            <li>    
+                <a href="#capabilities">Capabilities</a>
+            </li>
+            <li>
+                <a href="#introduction">Introduction</a>
+            </li>
+            <li>
+                <a href="#3dmodel">3D model</a>
+            </li>
+            <li>
+                <a href="#projection">Projection</a>
+            </li>
+            <li>
+                <a href="#2dmodel">2D model</a>
+            </li>
+            <li>
+                <a href="#rasterization">Rasterization</a>
+            </li>
+            <li>
+                <a href="#compilation">Compilation</a>
+            </li>
+            <li>
+                <a href="#todo">TODO</a>
+            </li>
+            <li>
+                <a href="#contribs">Contributors</a>
+            </li>
+        </ul>
+        <br><br><br>
+
+
+        <h1 id="capabilities">Capabilities</h1>
+        <br>
+        <h3>
+            Engine supports objects in 3d and 2d euclidean spaces, it can load STL files (3d printer models) and display all of them. 
+        </h3>
+        <img src="images/lanternAndPalet.png">
+        <h3>
+            Project enables movement of the camera as well as transformations (rotation, scaling and rotation) of objects. 
+        </h3>
+        <img src="images/lanternWireframe.png">
+        <h3>
+            Engine Supports different view modes, for the time being they are wireframe and random color fill.
+        </h3>
+        <img src="images/moai.png">
+        <img src="images/moaiWireframe.png">
+        <h3>
+            The biggest weakness of the project is that all of the computation heavy maths is being done by the CPU, GPU acceleration will be developed in the future.
+        </h3>
+        <br>
+        <h3>
+            Keys:
+        </h3>
+        <ul>
+            <li>
+                q - quit
+            </li>
+            <li>
+                w,a,s,d, space, shift - camera movement
+            </li>
+            <li>
+                m - togle render mode
+            </li>
+        </ul>
+        <br><br><br>
+
+
+        <h1 id="introduction">Introduction</h1>
+        <br>
+        <h2>
+            The engine is comprised of different non intertwined modules which are: 3D model, projection, 2D model and rasterization. There are also helper modules: math utils and stl utils which implement math needed to operate such project (for example matrix multiplication, matrix and vector structs etc.) and functions with which to operate on STL files.
+        </h2>
+        <img src="images/pipeline.png" style="width: 30%">
+        <br><br><br>
+
+        <h1 id="3dmodel">3D model</h1>
+        <br>
+        <h2>
+            3D model contains an implementation of Object3 as well as transfomation functions regarding such objects. 
+        </h2>
+        <h2>
+            Object3 is a 3 Dimenional abstract object which is essentialy a set of 3D math figures (mostly triangles but also lines and points) and an axis (point in 3D space) which can be set or computed as a mean of all the objects vertices.
+        </h2>
+        <h2>
+            All of the math transformations are being computed on axis->vertex vectors. both translation and setting the position use simple 3D vector addition to function, rotations about three main axis are computed by multiplying all the axis->vertex vectors by coresponding rotation matrix, eulers rotaion (rotation about a given axis) is in a TODO.
+        </h2>
+        <img src="images/object3.png">
+        <br><br><br>
+        
+        <h1 id="projection">Projection</h1>
+        <br>
+        <h2>
+            The projection section is probably the most advanced piece of the project by the math used. This module's purpose is to project 3D objects onto a 2D plane, it is a sort of bridge between 3D model and 2D model modules.
+        </h2>
+        <h2>
+            Model that has been used uses a camera (point in 3D space and vector describing a plane). The camera "captures" the object by computing line intersetion between camera-vertex lines and the camera plane. 
+        </h2>
+        <img style="width: 30%" src="images/projection1.png">
+        <img style="width: 30%" src="images/projection2.png">
+        <br><br><br>
+
+        <h1 id="2dmodel">2D model</h1>
+        <br>
+        <h2>
+            2D model contains an implementation of Object2 as well as transfomation functions regarding such objects. 
+        </h2>
+        <h2>
+            Object2 is a 2 Dimenional abstract object which is essentialy a set of 2D math figures (mostly triangles but also lines and points) and an axis (point in 2D space) which can be set or computed as a mean of all the objects vertices.
+        </h2>
+        <h2>
+            All of the math transformations are being computed on axis->vertex vectors. both translation and setting the position use simple 2D vector addition to function, rotations about three main axis are computed by multiplying all the axis->vertex vectors by coresponding rotation matrix, eulers rotaion (rotation about a given axis) is in a TODO.
+        </h2>
+        <img src="images/object2.png">
+        <br><br><br>
+
+        <h1 id="rasterization">Rasterization</h1>
+        <br>
+        <h2>
+            Rasterization is a brigde module between 2D math model and the screen. This module implements a couple algorithms which rasterize abstract figures. This module implements Bresenham's algorithm to rasterize a line, linear interpolation to determin colors inbetween two given points and a function to draw a color-filled triangle. Rasterization also implements a helper function which scales 2D objects to fit the screen.
+        </h2>
+        <img src="images/interpolation.png">
+        <br><br><br>
+
+        <h1 id="compilation">Compilation</h1>
+        <br>
+        <h2>
+            Dependencies:<br>
+            <li>libsdl2-dev</li>
+            <li>make</li>
+        </h2>
+        <h2>
+            If dependencies are not met you will need to install them:
+        </h2>
+        <img style="width: 25%" src="images/libsdl.png">
+        <img style="width: 25%" src="images/make.png">
+        <h2>
+            To compile the engine type:
+        </h2>
+        <img style="width: 18%" src="images/compilation.png">
+        <h2>
+            To run the engine type:
+        </h2>
+        <img style="width: 18%" src="images/run.png">
+        <br><br><br>
+
+        <h1 id="todo">TODO</h1>
+        <br>
+        <h2>
+            Some features that will be developed in the future but had to be postponed due to personal affairs:
+            <ul>
+                <li>
+                    full windows support
+                </li>
+                <li>
+                    euler's rotation about a given matrix
+                </li>
+                <li>
+                    GPU acceleration
+                </li>
+                <li>
+                    projection optimalization, only computing that is visible
+                </li>
+                <li>
+                    normal vectors implementation and their impact on the view model
+                </li>
+                <li>
+                    YUV4MPEG2 video render implementation
+                </li>
+            </ul>
+        </h2>
+        <br><br><br>
+
+        <h1 id="contribs">Contributors</h1>
+        <br>
+        <h2>
+            Here are github nicks of project contributors as well as their additions to the project.
+            <ul>
+                <li>
+                    Tomunek - STL_utils.cpp and example models
+                </li>
+                <li>
+                    Koobson - matrix math and some small tweaks
+                </li>
+            </ul>
+        </h2>
+        <br><br><br>
+
+
+    </body>
+
+</html>
+
