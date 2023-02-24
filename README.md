@@ -4,6 +4,7 @@ An amatour implementation of a simple 3d engine consisting of 3d math model, sim
 Quick start
 ```console
 git clone https://github.com/piotrR5/graphics_fun.git
+cd graphics_fun
 sudo apt install libsdl2-dev make
 make
 ./engine.out
